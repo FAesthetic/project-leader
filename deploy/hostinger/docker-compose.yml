@@ -21,7 +21,7 @@ services:
       rm -rf /app/* &&
       curl -fsSL https://github.com/FAesthetic/project-leader/archive/refs/heads/main.tar.gz |
       tar -xz --strip-components=1 -C /app &&
-      npm ci &&
+      npm ci --include=dev &&
       npm run build &&
       npm run start -- -H 0.0.0.0 -p 3000
       "
@@ -37,9 +37,3 @@ services:
       timeout: 10s
       retries: 5
       start_period: 120s
-    networks:
-      - traefik-proxy
-
-networks:
-  traefik-proxy:
-    external: true

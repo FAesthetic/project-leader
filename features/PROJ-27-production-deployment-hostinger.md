@@ -79,8 +79,8 @@ Keine neuen Tabellen. Das vorbereitete Supabase-Schema bleibt in
 - `next.config.ts` setzt Security-Header.
 - `src/lib/redirects.ts` bündelt sichere interne Redirects.
 - `src/components/layout/app-shell.tsx` trennt Public- und App-Routen.
-- `deploy/hostinger/docker-compose.yml` nutzt Hostingers Traefik-Netzwerk
-  `traefik-proxy`, statt eigene Ports 80/443 zu binden.
+- `deploy/hostinger/docker-compose.yml` nutzt Traefik-Labels, statt eigene
+  Ports 80/443 zu binden.
 - React/React-DOM wurden auf aktuelle Patch-Version aktualisiert.
 - PostCSS wurde auf eine sichere Patch-Version gepinnt.
 

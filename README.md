@@ -292,8 +292,8 @@ Website sichtbar ist, liegt zusätzlich ein VPS-Compose-Setup unter:
 deploy/hostinger/docker-compose.yml
 ```
 
-Dieses Setup startet die Next.js-App als Node-Service und hängt sie über
-Hostingers Traefik Reverse Proxy an:
+Dieses Setup startet die Next.js-App als Node-Service und setzt Traefik-Labels
+für Hostingers Reverse Proxy:
 
 ```txt
 leaderjournal.de
