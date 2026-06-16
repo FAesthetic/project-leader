@@ -300,6 +300,25 @@ leaderjournal.de
 www.leaderjournal.de
 ```
 
+Aktueller Hostinger-Stand:
+
+- VPS-Projekt `leaderjournal` läuft auf VM `1192698`.
+- Container `leaderjournal-app-1` ist healthy.
+- DNS `@` zeigt auf `72.62.89.226`.
+- Der vorhandene Hostinger/VPS Reverse Proxy routet `leaderjournal.de` noch
+  nicht zum Container.
+
+Letzter hPanel-Schritt:
+
+```txt
+VPS -> Docker Manager / Reverse Proxy:
+leaderjournal.de -> leaderjournal-app-1:3000
+www.leaderjournal.de -> leaderjournal-app-1:3000
+```
+
+Falls Hostinger den Traefik-Katalog nutzt, muss das Traefik-Template aktiv sein
+und die Labels aus `deploy/hostinger/docker-compose.yml` erkennen.
+
 ---
 
 ## Projektstruktur

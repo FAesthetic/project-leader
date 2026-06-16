@@ -2,7 +2,7 @@
 
 ## Status
 
-In Progress
+Blocked
 
 ## Priorität
 
@@ -64,7 +64,7 @@ Keine neuen Tabellen. Das vorbereitete Supabase-Schema bleibt in
 - [ ] `/` lädt ohne App-Sidebar
 - [ ] `/login` lädt ohne App-Sidebar
 - [ ] `/auth/callback?next=//example.com` leitet nicht extern weiter
-- [ ] `leaderjournal.de` ist über Hostinger deployt oder der externe Blocker ist dokumentiert
+- [x] `leaderjournal.de` ist über Hostinger deployt oder der externe Blocker ist dokumentiert
 
 ## Edge Cases
 
@@ -97,14 +97,28 @@ Keine neuen Tabellen. Das vorbereitete Supabase-Schema bleibt in
 
 ## Implementierungsnotizen
 
-In Arbeit.
+- Code ist gebaut, geprüft, committed und nach `origin/main` gepusht.
+- Hostinger Shared-Hosting-Deploy ist nicht möglich, weil für
+  `leaderjournal.de` keine Website/Hosting-Order im verbundenen Hostinger-
+  Account existiert.
+- VPS-Projekt `leaderjournal` wurde auf VM `1192698` erstellt.
+- Container `leaderjournal-app-1` läuft mit `node:22-alpine` und ist healthy.
+- VPS-Logs zeigen erfolgreichen `npm ci --include=dev`, `next build` und
+  `next start -H 0.0.0.0 -p 3000`.
+- Hostinger DNS zeigt `@` auf `72.62.89.226` und `www` per CNAME auf
+  `leaderjournal.de.`.
+- Externer Blocker: Der vorhandene Hostinger/VPS Reverse Proxy antwortet vor
+  der App, routet `leaderjournal.de` aber nicht zum Container.
 
 ## Offene Punkte
 
-- Hostinger Deployment final ausführen und Live-URL prüfen.
+- In Hostinger hPanel/Docker Manager das Routing von `leaderjournal.de` auf
+  den Container `leaderjournal-app-1:3000` aktivieren oder Hostingers Traefik-
+  Template/Proxy korrekt verbinden.
 - Supabase Redirect URLs für `https://leaderjournal.de` ergänzen.
 - Finale Rechtsseiten vor breiter öffentlicher Nutzung ergänzen.
 
 ## Änderungsverlauf
 
 - 2026-06-16 – Production Deployment vorbereitet.
+- 2026-06-16 – VPS-Container deployt; Domain-Routing durch Hostinger-Proxy blockiert.

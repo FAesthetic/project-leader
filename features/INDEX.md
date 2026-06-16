@@ -50,7 +50,7 @@ Priorität:
 | PROJ-17 | Responsive Mobile UX und reduzierte Navigation | P1 | Done | AppShell, 5 Hauptbereiche, Quick-Log-Schnellaktion |
 | PROJ-20 | Audioeingabe und Transkription | P1 | Done | `features/PROJ-20-audioeingabe-transkription.md` |
 | PROJ-26 | Lokaler Demo-Modus | P1 | Done | `features/PROJ-26-lokaler-demo-modus.md` |
-| PROJ-27 | Production Deployment Hostinger | P1 | In Progress | `features/PROJ-27-production-deployment-hostinger.md` |
+| PROJ-27 | Production Deployment Hostinger | P1 | Blocked | `features/PROJ-27-production-deployment-hostinger.md` |
 
 ---
 
@@ -83,7 +83,7 @@ Aktueller Produktkern:
 9. Supabase Auth mit E-Mail, Google und Apple vorbereitet
 10. Supabase Datenmodell mit RLS als SQL vorbereitet
 11. Lokaler Demo-Modus für vollständige MVP-Durchsicht ohne OAuth-Setup
-12. Production Deployment für `leaderjournal.de` über Hostinger in Arbeit
+12. VPS-Deployment für `leaderjournal.de` läuft; Domain-Routing im Hostinger-Proxy ist noch blockiert
 
 Weiterhin keine Kalenderintegration. Supabase Auth ist angebunden; Persistenz folgt nach Ausführung des RLS-Schemas. KI ist aktuell für Audio-Transkription und Audio-Zusammenfassung angebunden.
 
