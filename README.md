@@ -305,19 +305,23 @@ Aktueller Hostinger-Stand:
 - VPS-Projekt `leaderjournal` läuft auf VM `1192698`.
 - Container `leaderjournal-app-1` ist healthy.
 - DNS `@` zeigt auf `72.62.89.226`.
-- Der vorhandene Hostinger/VPS Reverse Proxy routet `leaderjournal.de` noch
-  nicht zum Container.
+- Hostingers Traefik-Reverse-Proxy routet `leaderjournal.de` und
+  `www.leaderjournal.de` auf den App-Container.
+- HTTP leitet auf HTTPS weiter.
+- Ein erzwungener HTTPS-Probeaufruf auf `72.62.89.226` mit Host
+  `leaderjournal.de` liefert `200`.
 
-Letzter hPanel-Schritt:
+Hinweis:
 
 ```txt
-VPS -> Docker Manager / Reverse Proxy:
-leaderjournal.de -> leaderjournal-app-1:3000
-www.leaderjournal.de -> leaderjournal-app-1:3000
+DNS-Propagation kann noch dauern. Google DNS und Quad9 zeigen bereits auf
+72.62.89.226; einzelne Resolver können vorübergehend noch eine alte IP liefern.
 ```
 
-Falls Hostinger den Traefik-Katalog nutzt, muss das Traefik-Template aktiv sein
-und die Labels aus `deploy/hostinger/docker-compose.yml` erkennen.
+Falls das Routing später erneut angepasst werden muss, muss der Container im
+externen Docker-Netzwerk `web` hängen und Hostingers Traefik-Certresolver `le`
+nutzen. Die aktuelle Konfiguration liegt in
+`deploy/hostinger/docker-compose.yml`.
 
 ---
 

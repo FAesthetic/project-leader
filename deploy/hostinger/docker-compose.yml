@@ -4,6 +4,9 @@ services:
     restart: unless-stopped
     working_dir: /app
     environment:
+      HOSTNAME: 0.0.0.0
+      PORT: 3000
+      NEXT_TELEMETRY_DISABLED: 1
       NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
       NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
       NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY}
@@ -25,19 +28,29 @@ services:
       npm run build &&
       npm run start -- -H 0.0.0.0 -p 3000
       "
+    networks:
+      - web
     labels:
       - traefik.enable=true
-      - traefik.http.services.leaderjournal.loadbalancer.server.port=3000
+      - traefik.docker.network=web
+      - traefik.http.routers.leaderjournal-route.rule=Host(`leaderjournal.de`) || Host(`www.leaderjournal.de`)
+      - traefik.http.routers.leaderjournal-route.entrypoints=websecure
+      - traefik.http.routers.leaderjournal-route.tls=true
+      - traefik.http.routers.leaderjournal-route.tls.certresolver=le
+      - traefik.http.routers.leaderjournal-route.service=leaderjournal-service
       - traefik.http.routers.leaderjournal-http.rule=Host(`leaderjournal.de`) || Host(`www.leaderjournal.de`)
       - traefik.http.routers.leaderjournal-http.entrypoints=web
-      - traefik.http.routers.leaderjournal-http.service=leaderjournal
-      - traefik.http.routers.leaderjournal-https.rule=Host(`leaderjournal.de`) || Host(`www.leaderjournal.de`)
-      - traefik.http.routers.leaderjournal-https.entrypoints=websecure
-      - traefik.http.routers.leaderjournal-https.tls.certresolver=letsencrypt
-      - traefik.http.routers.leaderjournal-https.service=leaderjournal
+      - traefik.http.routers.leaderjournal-http.middlewares=leaderjournal-https
+      - traefik.http.routers.leaderjournal-http.service=leaderjournal-service
+      - traefik.http.middlewares.leaderjournal-https.redirectscheme.scheme=https
+      - traefik.http.services.leaderjournal-service.loadbalancer.server.port=3000
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/ >/dev/null 2>&1"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 120s
+
+networks:
+  web:
+    external: true

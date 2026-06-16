@@ -2,7 +2,7 @@
 
 ## Status
 
-Blocked
+Done
 
 ## Priorität
 
@@ -58,13 +58,13 @@ Keine neuen Tabellen. Das vorbereitete Supabase-Schema bleibt in
 
 ## Akzeptanzkriterien
 
-- [ ] `npm run lint` läuft erfolgreich
-- [ ] `npm run build` läuft erfolgreich
-- [ ] `npm audit --omit=dev` meldet keine Production-Vulnerabilities
-- [ ] `/` lädt ohne App-Sidebar
-- [ ] `/login` lädt ohne App-Sidebar
-- [ ] `/auth/callback?next=//example.com` leitet nicht extern weiter
-- [x] `leaderjournal.de` ist über Hostinger deployt oder der externe Blocker ist dokumentiert
+- [x] `npm run lint` läuft erfolgreich
+- [x] `npm run build` läuft erfolgreich
+- [x] `npm audit --omit=dev` meldet keine Production-Vulnerabilities
+- [x] `/` lädt ohne App-Sidebar
+- [x] `/login` lädt ohne App-Sidebar
+- [x] `/auth/callback?next=//example.com` leitet nicht extern weiter
+- [x] `leaderjournal.de` ist über Hostinger deployt
 
 ## Edge Cases
 
@@ -79,8 +79,9 @@ Keine neuen Tabellen. Das vorbereitete Supabase-Schema bleibt in
 - `next.config.ts` setzt Security-Header.
 - `src/lib/redirects.ts` bündelt sichere interne Redirects.
 - `src/components/layout/app-shell.tsx` trennt Public- und App-Routen.
-- `deploy/hostinger/docker-compose.yml` nutzt Traefik-Labels, statt eigene
-  Ports 80/443 zu binden.
+- `deploy/hostinger/docker-compose.yml` nutzt Hostingers externes Traefik-
+  Netzwerk `web`, den Certresolver `le` und HTTPS-Redirects, statt eigene Ports
+  80/443 zu binden.
 - React/React-DOM wurden auf aktuelle Patch-Version aktualisiert.
 - PostCSS wurde auf eine sichere Patch-Version gepinnt.
 
@@ -90,10 +91,10 @@ Keine neuen Tabellen. Das vorbereitete Supabase-Schema bleibt in
 - [ ] Mobile geprüft
 - [ ] Ladezustände geprüft
 - [ ] Fehlerzustände geprüft
-- [ ] TypeScript geprüft
-- [ ] Lint geprüft
-- [ ] Build geprüft
-- [ ] Deployment geprüft
+- [x] TypeScript geprüft
+- [x] Lint geprüft
+- [x] Build geprüft
+- [x] Deployment geprüft
 
 ## Implementierungsnotizen
 
@@ -107,14 +108,14 @@ Keine neuen Tabellen. Das vorbereitete Supabase-Schema bleibt in
   `next start -H 0.0.0.0 -p 3000`.
 - Hostinger DNS zeigt `@` auf `72.62.89.226` und `www` per CNAME auf
   `leaderjournal.de.`.
-- Externer Blocker: Der vorhandene Hostinger/VPS Reverse Proxy antwortet vor
-  der App, routet `leaderjournal.de` aber nicht zum Container.
+- HTTPS-Routing über Hostingers Traefik-Proxy ist aktiv. Ein erzwungener
+  Probeaufruf auf `72.62.89.226` mit Host `leaderjournal.de` liefert `200`.
+- HTTP leitet auf HTTPS weiter.
 
 ## Offene Punkte
 
-- In Hostinger hPanel/Docker Manager das Routing von `leaderjournal.de` auf
-  den Container `leaderjournal-app-1:3000` aktivieren oder Hostingers Traefik-
-  Template/Proxy korrekt verbinden.
+- DNS-Propagation abwarten. Google DNS und Quad9 zeigen bereits auf
+  `72.62.89.226`; einzelne Resolver können noch eine alte IP liefern.
 - Supabase Redirect URLs für `https://leaderjournal.de` ergänzen.
 - Finale Rechtsseiten vor breiter öffentlicher Nutzung ergänzen.
 
@@ -122,3 +123,5 @@ Keine neuen Tabellen. Das vorbereitete Supabase-Schema bleibt in
 
 - 2026-06-16 – Production Deployment vorbereitet.
 - 2026-06-16 – VPS-Container deployt; Domain-Routing durch Hostinger-Proxy blockiert.
+- 2026-06-16 – Hostinger-Traefik-Netzwerk und Certresolver korrigiert; HTTPS
+  liefert `200`, Container ist healthy.
