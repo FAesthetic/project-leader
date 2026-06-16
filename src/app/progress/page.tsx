@@ -10,7 +10,7 @@ export default function ProgressPage() {
       <SectionHeader
         eyebrow="Fortschritt"
         title="Entwicklung wird sichtbar, wenn Muster sichtbar werden."
-        description="Der Mock zeigt Kennzahlen, die später aus Training, Quick Logs und Journalen entstehen."
+        description="Fortschritt entsteht nicht durch abstrakte Scores, sondern durch reflektierte Situationen, klare Erwartungen und nachgehaltene Zusagen."
       />
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

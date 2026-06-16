@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 import { DesktopSidebar } from "@/components/layout/desktop-sidebar";
 import { MobileBottomNavigation } from "@/components/layout/mobile-bottom-navigation";
+import { ProfileMenu } from "@/components/layout/profile-menu";
 
 type AppShellProps = {
   children: ReactNode;
@@ -32,17 +33,18 @@ export function AppShell({ children }: AppShellProps) {
   return (
     <div className="app-background min-h-screen bg-background text-foreground">
       <DesktopSidebar />
-      <div className="relative min-h-screen pb-24 lg:pl-72 lg:pb-0">
-        <header className="sticky top-0 z-20 border-b border-border/60 bg-background/82 px-4 py-3 backdrop-blur-xl lg:hidden">
+      <div className="relative min-h-screen pb-24 lg:pl-24 lg:pb-0">
+        <header className="sticky top-0 z-20 border-b border-border/60 bg-background/82 px-4 py-3 backdrop-blur-xl lg:px-8">
           <div className="flex items-center justify-between gap-3">
             <Link href="/dashboard" className="min-w-0">
               <p className="truncate text-sm font-semibold text-foreground">
-                Project Leadership
+                Leaderjournal
               </p>
               <p className="truncate text-xs text-muted-foreground">
                 Führung trainieren, nicht nur verwalten
               </p>
             </Link>
+            <ProfileMenu />
           </div>
         </header>
         <main id="main-content" className="relative z-10 min-h-screen">

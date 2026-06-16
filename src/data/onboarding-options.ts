@@ -1,15 +1,14 @@
 import type { CoachingStyle, Workday } from "@/types/onboarding";
 
 export const roleOptions = [
-  "Angehende Führungskraft",
-  "Teamlead",
-  "Manager",
-  "People Lead",
-  "Projektverantwortliche Person",
-  "Bereichsverantwortliche Person",
-  "Unternehmerisch verantwortlich",
-  "Laterale Führung",
-  "Andere Rolle",
+  "Teamleitung",
+  "Schichtleitung",
+  "Projektleitung",
+  "Bereichsleitung",
+  "Geschäftsführung",
+  "Stellvertretung",
+  "Informelle Führung",
+  "Andere",
 ];
 
 export const leadershipExperienceOptions = [
@@ -27,17 +26,17 @@ export const coachingStyles: Array<{
 }> = [
   {
     value: "klar-direkt",
-    title: "klar und direkt",
-    description: "Deutlich spiegeln, ohne zu beschamen.",
+    title: "Klar und direkt",
+    description: "Deutlich spiegeln, ohne zu beschämen.",
   },
   {
     value: "ausgewogen",
-    title: "ausgewogen",
+    title: "Ausgewogen",
     description: "Direkte Impulse mit mehr Kontext und Einordnung.",
   },
   {
     value: "sanft",
-    title: "sanft",
+    title: "Sanft",
     description: "Ruhiger Ton mit kleinen, machbaren Schritten.",
   },
 ];

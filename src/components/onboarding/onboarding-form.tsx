@@ -1,9 +1,8 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, ShieldCheck } from "lucide-react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import {
   coachingStyles,
@@ -11,32 +10,15 @@ import {
   roleOptions,
   workdayOptions,
 } from "@/data/onboarding-options";
-import {
-  onboardingSchema,
-  type OnboardingSchemaInput,
-  type OnboardingSchemaValues,
-} from "@/lib/onboarding/schema";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { todayFocus } from "@/data/mvp-mock";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { SectionHeader } from "@/components/ui/section-header";
 import {
   Select,
   SelectContent,
@@ -44,506 +26,403 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { SectionHeader } from "@/components/ui/section-header";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
-const defaultValues: OnboardingSchemaInput = {
+const leadershipTopics = [
+  "Erwartungen klarer formulieren",
+  "Schwierige Gespräche führen",
+  "Delegieren ohne Rückdelegation",
+  "Ruhig bleiben unter Druck",
+  "Leistung ansprechen",
+  "Konflikte klären",
+  "Team priorisieren",
+  "Veränderung erklären",
+  "Verantwortung übernehmen, ohne alles selbst zu machen",
+  "Sonstiges",
+];
+
+type OnboardingState = {
+  name: string;
+  age: string;
+  role: string;
+  teamSize: string;
+  leadershipExperience: string;
+  industryContext: string;
+  currentTopic: string;
+  goal: string;
+  coachingStyle: string;
+  trainingMinutes: string;
+  trainingDays: string[];
+  reminderTime: string;
+};
+
+const initialState: OnboardingState = {
   name: "",
-  age: 30,
-  currentRole: "",
-  industry: "",
-  teamSize: 5,
+  age: "30",
+  role: "",
+  teamSize: "5",
   leadershipExperience: "",
-  targetRole: "",
-  careerGoals: "",
-  currentChallenges: "",
-  biggestStrength: "",
-  developmentFields: "",
-  stressTriggers: "",
+  industryContext: "",
+  currentTopic: "",
+  goal: "",
   coachingStyle: "klar-direkt",
-  dailyTrainingMinutes: 15,
-  workdays: ["monday", "tuesday", "wednesday", "thursday", "friday"],
-  workStart: "09:00",
-  workEnd: "17:00",
-  trainOnDaysOff: false,
+  trainingMinutes: "10",
+  trainingDays: ["monday", "tuesday", "wednesday", "thursday", "friday"],
+  reminderTime: "18:00",
 };
 
 export function OnboardingForm() {
-  const [submittedProfile, setSubmittedProfile] =
-    useState<OnboardingSchemaValues | null>(null);
+  const [stepIndex, setStepIndex] = useState(0);
+  const [profile, setProfile] = useState<OnboardingState>(initialState);
+  const progress = Math.round(((stepIndex + 1) / steps.length) * 100);
+  const currentStep = steps[stepIndex];
+  const isLastStep = stepIndex === steps.length - 1;
 
-  const form = useForm<
-    OnboardingSchemaInput,
-    unknown,
-    OnboardingSchemaValues
-  >({
-    resolver: zodResolver(onboardingSchema),
-    defaultValues,
-    mode: "onSubmit",
-  });
+  const selectedTopic = profile.currentTopic || "Erwartungen klarer formulieren";
+  const selectedCoachingStyle = useMemo(
+    () =>
+      coachingStyles.find((style) => style.value === profile.coachingStyle) ??
+      coachingStyles[0],
+    [profile.coachingStyle]
+  );
 
-  function onSubmit(values: OnboardingSchemaValues) {
-    setSubmittedProfile(values);
+  function updateField<Key extends keyof OnboardingState>(
+    key: Key,
+    value: OnboardingState[Key]
+  ) {
+    setProfile((current) => ({ ...current, [key]: value }));
+  }
+
+  function toggleTrainingDay(day: string) {
+    setProfile((current) => {
+      const nextDays = current.trainingDays.includes(day)
+        ? current.trainingDays.filter((currentDay) => currentDay !== day)
+        : [...current.trainingDays, day];
+
+      return { ...current, trainingDays: nextDays };
+    });
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-7 px-5 py-8 sm:px-8 lg:px-10 lg:py-10">
+    <div className="mx-auto flex w-full max-w-4xl flex-col gap-7 px-5 py-7 sm:px-8 lg:px-10 lg:py-9">
       <SectionHeader
         eyebrow="Startprofil"
-        title="Kläre den Rahmen, bevor das Training startet."
-        description="Einmal beim Einstieg, später im Profil anpassbar: Ausgangslage, Zielbild, Entwicklungsfelder und Arbeitsrhythmus. Im Mock ohne Speicherung und ohne KI-Anfrage."
+        title="Dein erstes Führungstraining vorbereiten."
+        description="Ein Schritt nach dem anderen. Der Check-in passiert einmal beim Start und kann später im Profil angepasst werden."
       />
 
-      <div className="grid gap-2 sm:grid-cols-3">
-        {["Profil", "Zielbild", "Trainingsrhythmus"].map((step, index) => (
-          <div
-            key={step}
-            className="rounded-xl border border-border bg-surface/70 px-4 py-3"
-          >
-            <p className="text-xs font-medium text-primary">Schritt {index + 1}</p>
-            <p className="mt-1 text-sm font-semibold">{step}</p>
+      <Card className="overflow-hidden">
+        <CardHeader className="space-y-5">
+          <div>
+            <p className="text-sm font-medium text-primary">
+              Schritt {stepIndex + 1} von {steps.length}
+            </p>
+            <Progress value={progress} className="mt-3" />
           </div>
-        ))}
-      </div>
+          <div>
+            <CardTitle className="text-2xl tracking-[-0.03em]">
+              {currentStep.title}
+            </CardTitle>
+            {currentStep.description ? (
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                {currentStep.description}
+              </p>
+            ) : null}
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {stepIndex === 0 ? (
+            <Input
+              value={profile.name}
+              onChange={(event) => updateField("name", event.currentTarget.value)}
+              placeholder="Zum Beispiel: Mara"
+              autoFocus
+            />
+          ) : null}
 
-      <Alert className="border-primary/25 bg-accent">
-        <ShieldCheck className="h-4 w-4" />
-        <AlertTitle>Datensparsam vorbereitet</AlertTitle>
-        <AlertDescription>
-          Freitexte werden hier nicht gespeichert und nicht an eine KI gesendet.
-          Später muss jede Speicherung pro Nutzer mit RLS abgesichert werden.
-        </AlertDescription>
-      </Alert>
+          {stepIndex === 1 ? (
+            <Input
+              type="number"
+              min={16}
+              max={100}
+              value={profile.age}
+              onChange={(event) => updateField("age", event.currentTarget.value)}
+            />
+          ) : null}
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle>Profilgrundlagen</CardTitle>
-              <CardDescription>
-                Der Kontext hilft später, Training und Reflexion richtig einzuordnen.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Wie möchtest du angesprochen werden?" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="age"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Alter</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min={16}
-                        max={100}
-                        {...field}
-                        onChange={(event) =>
-                          field.onChange(event.currentTarget.valueAsNumber)
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="currentRole"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Aktuelle Rolle</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Rolle auswählen" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {roleOptions.map((role) => (
-                          <SelectItem key={role} value={role}>
-                            {role}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="industry"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Branche oder Kontext</FormLabel>
-                    <FormControl>
-                      <Input placeholder="z. B. Tech, Bildung, Verwaltung" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="teamSize"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Teamgröße</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min={0}
-                        {...field}
-                        onChange={(event) =>
-                          field.onChange(event.currentTarget.valueAsNumber)
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="leadershipExperience"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Führungserfahrung</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Erfahrung auswählen" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {leadershipExperienceOptions.map((option) => (
-                          <SelectItem key={option} value={option}>
-                            {option}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
+          {stepIndex === 2 ? (
+            <OptionGrid
+              options={roleOptions}
+              value={profile.role}
+              onChange={(value) => updateField("role", value)}
+            />
+          ) : null}
 
-          <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle>Zielbild und Entwicklungsfelder</CardTitle>
-              <CardDescription>
-                Die Fragen zielen auf Muster und Einflussbereich, nicht auf
-                Rechtfertigung.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-4">
-              <FormField
-                control={form.control}
-                name="targetRole"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Zielrolle</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Welche Verantwortung willst du sauberer tragen?" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="grid gap-4 md:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="careerGoals"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Karriereziele</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Was soll sich in den nächsten Monaten entwickeln?"
-                          className="min-h-28"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="currentChallenges"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Aktuelle Herausforderungen</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Welche Führungssituationen kosten gerade Klarheit oder Energie?"
-                          className="min-h-28"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="grid gap-4 md:grid-cols-3">
-                <FormField
-                  control={form.control}
-                  name="biggestStrength"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Größte Stärke</FormLabel>
-                      <FormControl>
-                        <Textarea className="min-h-24" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="developmentFields"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Größte Entwicklungsfelder</FormLabel>
-                      <FormControl>
-                        <Textarea className="min-h-24" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="stressTriggers"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Typische Stressauslöser</FormLabel>
-                      <FormControl>
-                        <Textarea className="min-h-24" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </CardContent>
-          </Card>
+          {stepIndex === 3 ? (
+            <Input
+              type="number"
+              min={0}
+              value={profile.teamSize}
+              onChange={(event) => updateField("teamSize", event.currentTarget.value)}
+            />
+          ) : null}
 
-          <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle>Coaching-Stil und Trainingsrhythmus</CardTitle>
-              <CardDescription>
-                Standard ist klar und direkt. Der Plan soll später realistisch
-                zu Arbeitstagen und verfügbarer Zeit passen.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-6">
-              <FormField
-                control={form.control}
-                name="coachingStyle"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Gewünschter Coaching-Stil</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        className="grid gap-3 lg:grid-cols-3"
+          {stepIndex === 4 ? (
+            <OptionGrid
+              options={leadershipExperienceOptions}
+              value={profile.leadershipExperience}
+              onChange={(value) => updateField("leadershipExperience", value)}
+            />
+          ) : null}
+
+          {stepIndex === 5 ? (
+            <Input
+              value={profile.industryContext}
+              onChange={(event) =>
+                updateField("industryContext", event.currentTarget.value)
+              }
+              placeholder="Zum Beispiel: Tech, Handel, Bildung, Verwaltung"
+            />
+          ) : null}
+
+          {stepIndex === 6 ? (
+            <OptionGrid
+              options={leadershipTopics}
+              value={profile.currentTopic}
+              onChange={(value) => updateField("currentTopic", value)}
+            />
+          ) : null}
+
+          {stepIndex === 7 ? (
+            <Textarea
+              value={profile.goal}
+              onChange={(event) => updateField("goal", event.currentTarget.value)}
+              placeholder="Was soll sich durch dein Training konkret verbessern?"
+              className="min-h-36"
+            />
+          ) : null}
+
+          {stepIndex === 8 ? (
+            <RadioGroup
+              value={profile.coachingStyle}
+              onValueChange={(value) => updateField("coachingStyle", value)}
+              className="grid gap-3"
+            >
+              {coachingStyles.map((style) => (
+                <Label
+                  key={style.value}
+                  className="flex min-h-24 cursor-pointer gap-3 rounded-2xl border border-border bg-surface/70 p-4 text-sm transition hover:bg-secondary/70"
+                >
+                  <RadioGroupItem value={style.value} />
+                  <span>
+                    <span className="block font-medium text-foreground">
+                      {style.title}
+                    </span>
+                    <span className="mt-1 block leading-6 text-muted-foreground">
+                      {style.description}
+                    </span>
+                  </span>
+                </Label>
+              ))}
+            </RadioGroup>
+          ) : null}
+
+          {stepIndex === 9 ? (
+            <div className="grid gap-5">
+              <Label className="space-y-2">
+                <span>Wie viele Minuten pro Tag willst du investieren?</span>
+                <Select
+                  value={profile.trainingMinutes}
+                  onValueChange={(value) => updateField("trainingMinutes", value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {["5", "10", "15", "20"].map((minutes) => (
+                      <SelectItem key={minutes} value={minutes}>
+                        {minutes} Minuten
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Label>
+
+              <div>
+                <p className="mb-3 text-sm font-medium">
+                  An welchen Tagen willst du trainieren?
+                </p>
+                <div className="grid grid-cols-4 gap-2 sm:grid-cols-7">
+                  {workdayOptions.map((day) => {
+                    const checked = profile.trainingDays.includes(day.value);
+
+                    return (
+                      <button
+                        key={day.value}
+                        type="button"
+                        onClick={() => toggleTrainingDay(day.value)}
+                        className={cn(
+                          "h-12 rounded-2xl border text-sm font-medium transition-colors",
+                          checked
+                            ? "border-primary/40 bg-accent text-primary"
+                            : "border-border bg-surface/70 text-muted-foreground"
+                        )}
                       >
-                        {coachingStyles.map((style) => (
-                          <Label
-                            key={style.value}
-                            className="flex min-h-28 cursor-pointer gap-3 rounded-xl border border-border bg-surface/70 p-4 text-sm transition hover:bg-secondary/70"
-                          >
-                            <RadioGroupItem value={style.value} />
-                            <span>
-                              <span className="block font-medium text-foreground">
-                                {style.title}
-                              </span>
-                              <span className="mt-1 block leading-5 text-muted-foreground">
-                                {style.description}
-                              </span>
-                            </span>
-                          </Label>
-                        ))}
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Separator />
-
-              <div className="grid gap-4 md:grid-cols-3">
-                <FormField
-                  control={form.control}
-                  name="dailyTrainingMinutes"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Trainingszeit pro Tag</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min={5}
-                          max={90}
-                          {...field}
-                          onChange={(event) =>
-                            field.onChange(event.currentTarget.valueAsNumber)
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="workStart"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Arbeitsbeginn</FormLabel>
-                      <FormControl>
-                        <Input type="time" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="workEnd"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Feierabend</FormLabel>
-                      <FormControl>
-                        <Input type="time" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        {day.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
-              <FormField
-                control={form.control}
-                name="workdays"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Arbeitstage</FormLabel>
-                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
-                      {workdayOptions.map((day) => {
-                        const checked = field.value.includes(day.value);
-
-                        return (
-                          <Label
-                            key={day.value}
-                            className="flex h-12 cursor-pointer items-center gap-2 rounded-xl border border-border bg-surface/70 px-3 text-sm transition hover:bg-secondary/70"
-                          >
-                            <Checkbox
-                              checked={checked}
-                              onCheckedChange={(nextChecked) => {
-                                const nextValue = nextChecked
-                                  ? [...field.value, day.value]
-                                  : field.value.filter((value) => value !== day.value);
-                                field.onChange(nextValue);
-                              }}
-                            />
-                            {day.label}
-                          </Label>
-                        );
-                      })}
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="trainOnDaysOff"
-                render={({ field }) => (
-                  <FormItem className="flex items-center justify-between gap-4 rounded-md border border-border bg-background/50 p-4">
-                    <div className="space-y-1">
-                      <FormLabel>Training an freien Tagen aktiv?</FormLabel>
-                      <p className="text-sm leading-6 text-muted-foreground">
-                        Freie Tage bleiben sonst für Regeneration oder optionale
-                        Selbstführung reserviert.
-                      </p>
-                    </div>
-                    <FormControl>
-                      <Switch checked={field.value} onCheckedChange={field.onChange} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          <div className="flex flex-col gap-3 rounded-md border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm leading-6 text-muted-foreground">
-              Der Klick erstellt nur eine lokale Mock-Zusammenfassung. Es wird
-              nichts gespeichert und nichts an KI gesendet.
-            </p>
-            <Button type="submit" size="lg">
-              Mock-Profil erstellen
-            </Button>
-          </div>
-        </form>
-      </Form>
-
-      {submittedProfile ? (
-        <Card className="border-emerald-500/25 bg-emerald-500/10">
-          <CardHeader>
-            <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-md bg-emerald-500/15 text-emerald-200">
-              <CheckCircle2 className="h-5 w-5" aria-hidden />
+              <Label className="space-y-2">
+                <span>Wann möchtest du an die Abendreflexion erinnert werden?</span>
+                <Input
+                  type="time"
+                  value={profile.reminderTime}
+                  onChange={(event) =>
+                    updateField("reminderTime", event.currentTarget.value)
+                  }
+                />
+              </Label>
             </div>
-            <CardTitle>Startprofil bereit</CardTitle>
-            <CardDescription>
-              Diese Zusammenfassung ist die spätere Grundlage für
-              Entwicklungsprofil und Trainingsplan.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-3 text-sm text-muted-foreground md:grid-cols-2">
-            <p>
-              <span className="text-foreground">Rolle:</span>{" "}
-              {submittedProfile.currentRole}
-            </p>
-            <p>
-              <span className="text-foreground">Zielrolle:</span>{" "}
-              {submittedProfile.targetRole}
-            </p>
-            <p>
-              <span className="text-foreground">Trainingszeit:</span>{" "}
-              {submittedProfile.dailyTrainingMinutes} Minuten pro Tag
-            </p>
-            <p>
-              <span className="text-foreground">Coaching-Stil:</span>{" "}
-              {coachingStyles.find(
-                (style) => style.value === submittedProfile.coachingStyle
-              )?.title ?? submittedProfile.coachingStyle}
-            </p>
-          </CardContent>
-        </Card>
-      ) : null}
+          ) : null}
+
+          {isLastStep ? (
+            <div className="space-y-5">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-primary">
+                <CheckCircle2 className="h-6 w-6" aria-hidden />
+              </div>
+              <div>
+                <h2 className="text-2xl font-semibold tracking-[-0.03em]">
+                  Dein erstes Führungstraining ist vorbereitet.
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                  Thema: {selectedTopic}. Coaching-Stil: {selectedCoachingStyle.title}.
+                </p>
+              </div>
+              <div className="grid gap-3 md:grid-cols-3">
+                <SummaryCard label="Entwicklungsthema" value={selectedTopic} />
+                <SummaryCard label="Heutiger Fokus" value={todayFocus.title} />
+                <SummaryCard label="Werkzeug" value={todayFocus.model} />
+              </div>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <Button asChild size="lg">
+                  <Link href="/training">Training starten</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/quick-log">Erste Situation loggen</Link>
+                </Button>
+              </div>
+            </div>
+          ) : null}
+
+          <div className="flex items-center justify-between gap-3 border-t border-border pt-5">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setStepIndex((current) => Math.max(0, current - 1))}
+              disabled={stepIndex === 0}
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden />
+              Zurück
+            </Button>
+            {!isLastStep ? (
+              <Button
+                type="button"
+                onClick={() =>
+                  setStepIndex((current) => Math.min(steps.length - 1, current + 1))
+                }
+              >
+                Weiter
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </Button>
+            ) : (
+              <Badge variant="outline">Startprofil bereit</Badge>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+const steps = [
+  {
+    title: "Wie möchtest du angesprochen werden?",
+  },
+  {
+    title: "Wie alt bist du?",
+    description:
+      "Alter kann Führungskontext beeinflussen, zum Beispiel wenn du deutlich jünger oder älter als dein Team bist.",
+  },
+  {
+    title: "Welche Führungsrolle hast du aktuell?",
+  },
+  {
+    title: "Für wie viele Menschen trägst du aktuell Führungsverantwortung?",
+  },
+  {
+    title: "Wie viel Führungserfahrung hast du?",
+  },
+  {
+    title: "In welchem Kontext führst du?",
+  },
+  {
+    title: "Welche Führungssituation kostet dich gerade am meisten Klarheit oder Energie?",
+  },
+  {
+    title: "Was soll sich durch dein Training konkret verbessern?",
+  },
+  {
+    title: "Wie soll die App dich coachen?",
+  },
+  {
+    title: "Wie soll dein Trainingsrhythmus aussehen?",
+  },
+  {
+    title: "Dein erstes Führungstraining ist vorbereitet.",
+  },
+];
+
+function OptionGrid({
+  options,
+  value,
+  onChange,
+}: {
+  options: string[];
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div className="grid gap-2 sm:grid-cols-2">
+      {options.map((option) => (
+        <button
+          key={option}
+          type="button"
+          onClick={() => onChange(option)}
+          className={cn(
+            "min-h-14 rounded-2xl border px-4 py-3 text-left text-sm font-medium transition-colors",
+            value === option
+              ? "border-primary/45 bg-accent text-foreground"
+              : "border-border bg-surface/70 text-muted-foreground hover:bg-secondary/70 hover:text-foreground"
+          )}
+        >
+          {option}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function SummaryCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-border bg-surface-muted p-4">
+      <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+        {label}
+      </p>
+      <p className="mt-2 text-sm font-semibold leading-6">{value}</p>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { CalendarPlus } from "lucide-react";
+import Link from "next/link";
 
 import { plannedEvents } from "@/data/mvp-mock";
 import { Badge } from "@/components/ui/badge";
@@ -39,8 +40,8 @@ export default function PlannerPage() {
             </Select>
             <Input placeholder="Tag und Uhrzeit" />
             <Input placeholder="Fokus: Was soll klarer werden?" />
-            <Button type="button" disabled>
-              Speichern im Mock nicht aktiv
+            <Button asChild>
+              <Link href="/training">Im Training vormerken</Link>
             </Button>
           </CardContent>
         </Card>
@@ -70,8 +71,8 @@ export default function PlannerPage() {
 
       <EmptyState
         icon={CalendarPlus}
-        title="Kalenderintegration kommt später"
-        description="Im MVP bleibt der Planer bewusst manuell. So bleibt der Fokus auf Führungsvorbereitung statt Kalenderverwaltung."
+        title="Bewusst als Führungsplanung gedacht"
+        description="Der Fokus liegt auf Gesprächsziel, Erwartung und nächstem Führungszug, nicht auf Kalenderverwaltung."
       />
     </div>
   );

@@ -53,10 +53,10 @@ export function UserApiKeySettings() {
       <CardContent className="space-y-4">
         <Alert className="border-primary/25 bg-accent">
           <KeyRound className="h-4 w-4" aria-hidden />
-          <AlertTitle>Lokal im Browser</AlertTitle>
+          <AlertTitle>Der Key bleibt auf deinem Gerät</AlertTitle>
           <AlertDescription>
-            Der Key wird nicht in Supabase gespeichert. Er wird nur für
-            Audio-Transkription an die serverseitige App-Route gesendet.
+            Du kannst deinen eigenen OpenAI API-Key nutzen. Er wird lokal in
+            deinem Browser gespeichert und nicht in deinem Account abgelegt.
           </AlertDescription>
         </Alert>
 
@@ -94,7 +94,7 @@ export function UserApiKeySettings() {
         </div>
 
         <p className="text-sm text-muted-foreground">
-          Status: {saved ? "lokaler Key vorhanden" : "kein lokaler Key hinterlegt"}
+          Status: {saved ? "Key lokal hinterlegt" : "Kein Key hinterlegt"}
         </p>
       </CardContent>
     </Card>

@@ -5,7 +5,7 @@ export function getSupabaseConfig() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!url || !key) {
-    throw new Error("Supabase URL oder Publishable Key fehlt.");
+    throw new Error("Account-Verbindung ist noch nicht vollständig eingerichtet.");
   }
 
   return { url, key };

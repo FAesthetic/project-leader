@@ -1,104 +1,182 @@
-import Link from "next/link";
-import { MessageSquarePlus, SearchCheck } from "lucide-react";
+"use client";
 
-import { aiMockFeedback, journalPrompts, quickLogs } from "@/data/mvp-mock";
+import { useState } from "react";
+import Link from "next/link";
+import { CheckCircle2, MessageSquarePlus, SearchCheck, Sparkles } from "lucide-react";
+
+import { aiGuidance, commitments, journalPrompts, quickLogs } from "@/data/mvp-mock";
 import { VoiceTextarea } from "@/components/audio/voice-textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function JournalPage() {
+  const [saved, setSaved] = useState(false);
+  const reflectionLogs = quickLogs.filter((log) => log.reflectTonight);
+
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 py-8 sm:px-8 lg:px-10 lg:py-10">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-7 px-5 py-7 sm:px-8 lg:px-10 lg:py-9">
       <SectionHeader
         eyebrow="Journal"
-        title="Reflektiere Verhalten, nicht nur Ergebnis."
-        description="Quick Logs, Abendjournal und systemische Reflexion liegen hier zusammen. So werden Alltagssituationen nicht verstreut."
+        title="Kurz reflektieren. Morgen klarer führen."
+        description="Vier Fragen reichen: wichtigste Situation, gutes Verhalten, Unklarheit und ein konkreter nächster Führungszug."
         action={
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline">
               <Link href="/quick-log">
                 <MessageSquarePlus className="h-4 w-4" aria-hidden />
-                Quick Log
+                Log starten
               </Link>
             </Button>
             <Button asChild variant="outline">
               <Link href="/reflection">
                 <SearchCheck className="h-4 w-4" aria-hidden />
-                Reflexion
+                Tiefer reflektieren
               </Link>
             </Button>
           </div>
         }
       />
 
-      <div className="grid gap-5 xl:grid-cols-[1fr_0.8fr]">
-        <Card>
+      <div className="grid gap-5 xl:grid-cols-[1fr_0.85fr]">
+        <Card className="border-primary/20">
           <CardHeader>
             <CardTitle>Abendreflexion</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-4">
+          <CardContent className="grid gap-5">
             <VoiceTextarea
               mode="journal"
               label="Abend per Audio zusammenfassen"
-              placeholder="Sprich frei ein, was heute wichtig war. Die App transkribiert und verdichtet daraus eine saubere Reflexionsnotiz."
+              placeholder="Sprich frei ein, was heute wichtig war. Die App verdichtet daraus eine Reflexionsnotiz, wenn du einen API-Key hinterlegt hast."
               minHeightClassName="min-h-28"
             />
-            {journalPrompts.evening.map((prompt, index) => (
-              <label key={prompt} className="space-y-2">
-                <span className="text-sm font-medium">{prompt}</span>
-                {index === 2 ? (
-                  <Input type="number" min={1} max={10} defaultValue={7} />
-                ) : (
-                  <Textarea placeholder="Kurz und ehrlich reicht." />
-                )}
-              </label>
-            ))}
-            <div className="rounded-xl bg-surface-muted p-4">
-              <p className="text-sm font-medium">Quick Logs für tiefere Betrachtung</p>
-              <div className="mt-3 space-y-2">
-                {quickLogs
-                  .filter((log) => log.reflectTonight)
-                  .map((log) => (
-                    <div key={log.title} className="flex items-center justify-between gap-3 rounded-lg bg-background/55 px-3 py-2">
-                      <span className="text-sm">{log.title}</span>
-                      <Badge variant="outline">ausgewählt</Badge>
-                    </div>
-                  ))}
+
+            <div className="grid gap-4">
+              {journalPrompts.evening.map((prompt, index) => (
+                <Label key={prompt} className="space-y-2">
+                  <span className="text-sm font-medium">{prompt}</span>
+                  {index === 0 ? (
+                    <Input placeholder="Log auswählen oder freie Situation eintragen" />
+                  ) : (
+                    <Textarea placeholder="Kurz und ehrlich reicht." className="min-h-24" />
+                  )}
+                </Label>
+              ))}
+            </div>
+
+            <div className="rounded-2xl border border-border bg-surface-muted p-4">
+              <p className="text-sm font-medium">Behavior Checks</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {journalPrompts.behaviorChecks.map((check) => (
+                  <Label
+                    key={check}
+                    className="flex min-h-11 items-center gap-3 rounded-xl bg-background/45 px-3 py-2 text-sm"
+                  >
+                    <Checkbox />
+                    {check}
+                  </Label>
+                ))}
               </div>
             </div>
-            <Button type="button" disabled>
-              Speichern im Mock nicht aktiv
+
+            <div className="rounded-2xl border border-border bg-surface-muted p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm font-medium">Offene Logs für heute</p>
+                <Badge variant="outline">{reflectionLogs.length} offen</Badge>
+              </div>
+              <div className="mt-3 space-y-2">
+                {reflectionLogs.map((log) => (
+                  <div
+                    key={log.id}
+                    className="rounded-xl bg-background/50 px-3 py-3"
+                  >
+                    <p className="text-sm font-medium">{log.title}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {log.category} · {log.people}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Label className="space-y-2">
+              <span className="text-sm font-medium">Bewertung optional</span>
+              <Input type="number" min={1} max={10} defaultValue={7} />
+            </Label>
+
+            {saved ? (
+              <Alert className="border-primary/25 bg-accent">
+                <CheckCircle2 className="h-4 w-4" aria-hidden />
+                <AlertTitle>Reflexion vorgemerkt</AlertTitle>
+                <AlertDescription>
+                  Dein Tageslernpunkt ist erfasst. Morgen startet mit einem
+                  klareren Fokus.
+                </AlertDescription>
+              </Alert>
+            ) : null}
+
+            <Button type="button" size="lg" onClick={() => setSaved(true)}>
+              Reflexion speichern
             </Button>
           </CardContent>
         </Card>
 
         <div className="space-y-5">
           <Alert className="border-primary/25 bg-accent">
-            <AlertTitle>{aiMockFeedback.headline}</AlertTitle>
+            <Sparkles className="h-4 w-4" aria-hidden />
+            <AlertTitle>{aiGuidance.journal.pattern}</AlertTitle>
             <AlertDescription className="mt-2 leading-6">
-              {aiMockFeedback.body}
+              {aiGuidance.journal.reflectionNote}
             </AlertDescription>
           </Alert>
 
           <Card>
             <CardHeader>
-              <CardTitle>Morgen ableiten</CardTitle>
+              <CardTitle>Nächster Führungszug</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 text-sm leading-6 text-muted-foreground">
-              <p>
-                Wenn ein Vorhaben nicht umgesetzt wurde, fragt die App nicht nach
-                Schuld, sondern nach Ursache: Ziel unrealistisch, falsch priorisiert,
-                innerlich vermieden oder durch Rahmenbedingungen blockiert?
+            <CardContent className="space-y-4">
+              <p className="text-sm leading-6 text-muted-foreground">
+                {aiGuidance.journal.nextImpulse}
               </p>
-              <p className="font-medium text-foreground">
-                Nächster Impuls: Eine Erwartung konkret formulieren, bevor du
-                Verantwortung einforderst.
-              </p>
+              <div className="rounded-2xl bg-surface-muted p-4">
+                <p className="text-sm font-medium">Konkreter Satz</p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {aiGuidance.journal.exampleSentence}
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Badge variant="outline">{aiGuidance.journal.recommendedModel}</Badge>
+                <Badge variant="outline">{aiGuidance.journal.recommendedTraining}</Badge>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Offene Zusagen</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {commitments.map((commitment) => (
+                <div key={commitment.id} className="rounded-2xl bg-surface-muted p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="font-medium">{commitment.title}</p>
+                    <Badge
+                      variant={commitment.status === "überfällig" ? "destructive" : "outline"}
+                    >
+                      {commitment.status}
+                    </Badge>
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    {commitment.description}
+                  </p>
+                </div>
+              ))}
             </CardContent>
           </Card>
         </div>

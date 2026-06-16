@@ -51,6 +51,7 @@ Priorität:
 | PROJ-20 | Audioeingabe und Transkription | P1 | Done | `features/PROJ-20-audioeingabe-transkription.md` |
 | PROJ-26 | Lokaler Demo-Modus | P1 | Done | `features/PROJ-26-lokaler-demo-modus.md` |
 | PROJ-27 | Production Deployment Hostinger | P1 | Done | `features/PROJ-27-production-deployment-hostinger.md` |
+| PROJ-28 | Mobile-first Produktstruktur, Team und Zusagen | P1 | Done | `features/PROJ-28-mobile-first-product-structure-team-commitments.md` |
 
 ---
 
@@ -72,20 +73,20 @@ Priorität:
 
 Aktueller Produktkern:
 
-1. 5 Hauptbereiche: Heute, Training, Journal, Modelle, Profil
-2. Quick Log als globale Schnellaktion
-3. Startprofil statt prominentem Onboarding-Menüpunkt
-4. Tagesfokus als Teil von Heute
-5. Fortschritt und Wochenplaner als Unterbereiche im Training
-6. Abendjournal und systemische Reflexion als Unterbereiche im Journal
-7. Profil/Einstellungen mit Zielanpassung, Theme Toggle und Accent Color
-8. Audioeingabe für Quick Log und Journal über serverseitige OpenAI-Route
-9. Supabase Auth mit E-Mail, Google und Apple vorbereitet
-10. Supabase Datenmodell mit RLS als SQL vorbereitet
-11. Lokaler Demo-Modus für vollständige MVP-Durchsicht ohne OAuth-Setup
+1. 5 Hauptbereiche: Heute, Training, Log, Journal, Team
+2. Log als zentraler schneller Situationsflow mit Voice/Text
+3. Profil/Einstellungen ausschließlich im Avatar-Menü
+4. Modelle/Werkzeuge als Unterbereich von Training
+5. Zusagen systemweit in Heute, Journal und Team
+6. Heute als Tageshub mit Trainingsfokus, offenen Zusagen, Reflexion und Wochenmuster
+7. Journal mit maximal vier Kernfragen und Behavior Checks
+8. Team-Kontext mit Gesprächen, subjektiver Wahrnehmung, Zusagen und Mustern
+9. BYOK OpenAI API-Key bleibt lokal im Browser
+10. Supabase Auth mit E-Mail, Google und Apple vorbereitet
+11. Supabase Datenmodell mit RLS für Team, Journal, Logs, Zusagen und Training vorbereitet
 12. VPS-Deployment für `leaderjournal.de` läuft; HTTPS-Routing ist aktiv, einzelne DNS-Resolver können noch propagieren
 
-Weiterhin keine Kalenderintegration. Supabase Auth ist angebunden; Persistenz folgt nach Ausführung des RLS-Schemas. KI ist aktuell für Audio-Transkription und Audio-Zusammenfassung angebunden.
+Weiterhin keine Kalenderintegration, Push Notifications, iOS-App oder Mentor-Matching. Supabase Auth ist angebunden; Persistenz folgt nach Ausführung des erweiterten RLS-Schemas. KI bleibt Hintergrundfunktion für Strukturierung, Muster und Impulse.
 
 ---
 

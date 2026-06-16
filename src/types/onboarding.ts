@@ -29,3 +29,18 @@ export type OnboardingFormValues = {
   workEnd: string;
   trainOnDaysOff: boolean;
 };
+
+export type StartProfileValues = {
+  name: string;
+  age: number;
+  role: string;
+  teamSize: number;
+  leadershipExperience: string;
+  industryContext: string;
+  currentTopic: string;
+  goal: string;
+  coachingStyle: CoachingStyle;
+  trainingMinutes: number;
+  trainingDays: Workday[];
+  reminderTime: string;
+};

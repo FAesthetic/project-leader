@@ -1,4 +1,5 @@
 import { BatteryMedium, CalendarClock, Target } from "lucide-react";
+import Link from "next/link";
 
 import { todayFocus } from "@/data/mvp-mock";
 import { Badge } from "@/components/ui/badge";
@@ -51,10 +52,10 @@ export default function MorningPage() {
             </label>
             <div className="flex items-center justify-between gap-3 rounded-xl bg-surface-muted p-4">
               <p className="text-sm text-muted-foreground">
-                Mock-Modus: Eingaben werden noch nicht gespeichert.
+                Dein Morgenfokus wird als Tagesrahmen vorgemerkt.
               </p>
-              <Button type="button" disabled>
-                Speichern im Mock nicht aktiv
+              <Button asChild>
+                <Link href="/dashboard">Heute öffnen</Link>
               </Button>
             </div>
           </CardContent>

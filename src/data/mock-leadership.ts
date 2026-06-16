@@ -24,9 +24,9 @@ export const mvpPillars: MvpPillar[] = [
     status: "als nächstes",
   },
   {
-    title: "Modelle anwenden",
+    title: "Werkzeuge anwenden",
     description:
-      "Leadership-Modelle werden passend zum Problem empfohlen, nicht als Lexikon gesammelt.",
+      "Wähle zuerst deine Situation. Die App zeigt dir das passende Werkzeug.",
     status: "als nächstes",
   },
 ];
@@ -40,8 +40,8 @@ export const trainingPreview: TrainingPreviewDay[] = [
   },
   {
     day: "Di",
-    focus: "Erwartung sauber machen",
-    model: "Feedbackmodell",
+    focus: "Erwartung klar formulieren",
+    model: "Erwartungsklärung",
     duration: "10 Min.",
   },
   {
@@ -52,7 +52,7 @@ export const trainingPreview: TrainingPreviewDay[] = [
   },
   {
     day: "Do",
-    focus: "Belastung steuern",
+    focus: "Früh erkennen, wann du gelb wirst",
     model: "Resilienz-Stressampel",
     duration: "8 Min.",
   },

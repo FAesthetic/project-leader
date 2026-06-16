@@ -24,7 +24,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <SectionHeader
         eyebrow="Login"
         title="Willkommen zurück."
-        description="Melde dich an, damit Startprofil, Journal und Training später sauber deinem Account zugeordnet werden."
+        description="Melde dich an, damit Startprofil, Journal, Training und Teamnotizen deinem Account zugeordnet bleiben."
         action={
           <Button asChild variant="outline">
             <Link href="/">Zur Startseite</Link>
@@ -33,10 +33,11 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       />
       <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <div className="rounded-2xl border border-border bg-surface/60 p-5">
-          <p className="text-sm font-medium">Nächster Produktstand</p>
+          <p className="text-sm font-medium">Warum ein Account?</p>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            Auth ist die Basis für echte Speicherung. Danach werden Startprofil,
-            Quick Logs, Journal und Einstellungen in Supabase mit RLS gesichert.
+            Deine Führungsnotizen sind persönlich. Ein Account sorgt dafür, dass
+            Training, Logs und Reflexionen zu dir gehören und nicht öffentlich
+            sichtbar sind.
           </p>
         </div>
         <AuthForm

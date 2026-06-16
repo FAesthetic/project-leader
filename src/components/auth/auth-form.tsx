@@ -129,12 +129,12 @@ export function AuthForm({
           <div className="rounded-2xl border border-primary/20 bg-accent p-4">
             <p className="text-sm font-medium">Nur kurz ansehen?</p>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Starte die lokale Demo mit Mock-Daten. Keine Registrierung, keine
-              echten Nutzerdaten.
+              Starte eine unverbindliche Vorschau. Keine Registrierung, keine
+              persönlichen Einträge.
             </p>
             <Button asChild variant="secondary" className="mt-4 w-full">
               <Link href={`/demo/start?next=${encodeURIComponent(nextPath)}`}>
-                Demo ohne Login starten
+                Vorschau ohne Login starten
               </Link>
             </Button>
           </div>
@@ -157,11 +157,10 @@ export function AuthForm({
           </div>
         ) : (
           <Alert className="border-primary/25 bg-accent">
-            <AlertTitle>Social Login noch nicht aktiv</AlertTitle>
+            <AlertTitle>Weitere Login-Wege werden vorbereitet</AlertTitle>
             <AlertDescription>
-              Google und Apple werden erst angezeigt, wenn die Provider im
-              Supabase-Dashboard aktiviert und per Env freigeschaltet sind.
-              E-Mail-Login funktioniert bereits.
+              E-Mail-Login funktioniert bereits. Google oder Apple erscheinen,
+              sobald sie für dieses Produkt freigeschaltet sind.
             </AlertDescription>
           </Alert>
         )}
@@ -197,7 +196,7 @@ function getOAuthErrorMessage(message: string, provider: OAuthProviderId) {
     message.toLowerCase().includes("unsupported provider") ||
     message.toLowerCase().includes("not enabled")
   ) {
-    return `${provider === "google" ? "Google" : "Apple"} ist in Supabase noch nicht aktiviert. Aktiviere den Provider im Supabase-Dashboard oder setze das passende NEXT_PUBLIC_AUTH_*_ENABLED Flag wieder auf false.`;
+    return `${provider === "google" ? "Google" : "Apple"} Login ist gerade noch nicht vollständig eingerichtet. Nutze bitte E-Mail oder versuche es später erneut.`;
   }
 
   return message;

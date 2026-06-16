@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     const supabase = await createClient();
     await supabase.auth.signOut();
   } catch {
-    // Local demo mode can be used before Supabase is fully configured.
+    // Local preview mode clears through the same sign-out path.
   }
 
   const response = NextResponse.redirect(new URL("/login", request.url), {

@@ -8,7 +8,6 @@ import {
   isDemoCookieActive,
   isDemoModeEnabled,
 } from "@/lib/demo-mode";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -31,20 +30,17 @@ export async function AuthStatusCard() {
     return (
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between gap-3">
-            <CardTitle>Account</CardTitle>
-            <Badge>Demo aktiv</Badge>
-          </div>
+          <CardTitle>Account</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm leading-6 text-muted-foreground">
-            Du nutzt gerade die lokale Demo mit Mock-Daten. Echte Speicherung
-            wird erst nach Login und Supabase-Persistenz aktiv.
+            Du nutzt gerade eine Vorschau ohne persönliche Speicherung. Für
+            dauerhafte Einträge brauchst du einen Account.
           </p>
           <form action="/auth/sign-out" method="post">
             <Button type="submit" variant="outline">
               <LogOut className="h-4 w-4" aria-hidden />
-              Demo verlassen
+              Vorschau verlassen
             </Button>
           </form>
         </CardContent>
@@ -56,15 +52,12 @@ export async function AuthStatusCard() {
     return (
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between gap-3">
-            <CardTitle>Account</CardTitle>
-            <Badge variant="outline">nicht angemeldet</Badge>
-          </div>
+          <CardTitle>Account</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm leading-6 text-muted-foreground">
-            Du kannst die Demo ansehen. Für echte Speicherung brauchst du einen
-            Account.
+            Melde dich an, damit deine Logs, Reflexionen und Teamnotizen deinem
+            Account zugeordnet bleiben.
           </p>
           <Button asChild>
             <a href="/login">Einloggen</a>
@@ -77,10 +70,7 @@ export async function AuthStatusCard() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between gap-3">
-          <CardTitle>Account</CardTitle>
-          <Badge>angemeldet</Badge>
-        </div>
+        <CardTitle>Account</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div>

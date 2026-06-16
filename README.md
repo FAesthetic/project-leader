@@ -90,6 +90,7 @@ Aktuelle Mock-Routen:
 /quick-log
 /journal
 /reflection
+/team
 /models
 /progress
 /planner
@@ -103,14 +104,14 @@ Die sichtbare App-Navigation ist bewusst auf fünf Hauptbereiche reduziert:
 ```txt
 Heute
 Training
+Log
 Journal
-Modelle
-Profil
+Team
 ```
 
-Quick Log ist eine globale Schnellaktion. Fortschritt und Planer liegen als
-Unterbereiche im Training. Startprofil und spätere Zielanpassungen liegen im
-Profil.
+Profil, Einstellungen, Datenschutz, API-Key, Darstellung und Reminder liegen im
+Avatar-Menü oben rechts. Modelle/Werkzeuge und Fortschritt liegen im Training.
+Zusagen erscheinen kontextuell in Heute, Journal und Team.
 
 Für eine lokale Produktdemo ohne Google- oder E-Mail-Login kann die Demo über
 die Landingpage oder direkt hier gestartet werden:
@@ -383,11 +384,12 @@ Darstellung und Akzentfarbe werden ausschließlich in Profil/Einstellungen geste
 Quick Log und Journal unterstützen eine erste Audioeingabe:
 
 - Aufnahme im Browser über Mikrofonberechtigung
-- Upload an die serverseitige Route `src/app/api/audio/transcribe/route.ts`
+- Verarbeitung über die Audio-Route der App
 - Transkription über OpenAI Speech-to-Text
 - kurze Leadership-Zusammenfassung über OpenAI Responses API
-- keine Speicherung der Audiodatei im MVP
+- keine dauerhafte Speicherung der Audiodatei
 - Ausgabe von Rohtranskript, bereinigter Notiz und nächstem Führungsimpuls
+- BYOK: Nutzer können ihren eigenen OpenAI API-Key lokal im Browser speichern
 
 Konfiguration:
 
@@ -404,27 +406,25 @@ OPENAI_SUMMARY_MODEL=gpt-5.5
 Der Mock-MVP umfasst aktuell:
 
 1. Landingpage
-2. Startprofil / Onboarding-Mock
-3. Heute-Ansicht
-4. Training mit Wochenplan
-5. Tagesfokus
-6. Quick Log als Schnellaktion
-7. Abendjournal
-8. systemische Reflexion
-9. statisches Mock-Feedback
-10. Modellbibliothek
-11. Fortschrittsseite
-12. Wochenplaner für Führungssituationen
-13. Profil/Einstellungen mit Startprofil, Theme und Akzentfarbe
-14. responsive Webapp
+2. Startprofil als Step-by-Step-Onboarding
+3. Heute als Tageshub
+4. Training mit Plan, Werkzeugen und Fortschritt
+5. Log als schneller Voice/Text-Situationsflow
+6. Journal mit vier Kernfragen
+7. systemische Reflexion
+8. Team-Bereich mit Gesprächen, Wahrnehmungen und Zusagen
+9. Zusagen in Heute, Journal und Team
+10. AI-Ausgabeformate und Fallbacks für Log, Journal und Team
+11. Profil/Einstellungen mit Datenschutz, API-Key, Darstellung und Reminder
+12. erweitertes Supabase-Schema mit RLS
+13. responsive Webapp
 
 Noch nicht echt angebunden:
 
-- Auth-Struktur
-- Supabase-Datenmodell
+- vollständige Supabase-Mutationen für alle Formulare
 - KI-Entwicklungsprofil
 - dynamischer Trainingsplan
-- KI-Feedback
+- persistiertes KI-Feedback über alle Bereiche
 
 ---
 

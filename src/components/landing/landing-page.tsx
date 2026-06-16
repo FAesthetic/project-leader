@@ -34,7 +34,7 @@ export function LandingPage() {
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg">
               <Link href={primaryHref}>
-                {demoModeEnabled ? "Demo starten" : "Kostenlos starten"}
+                {demoModeEnabled ? "Vorschau starten" : "Kostenlos starten"}
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
             </Button>
@@ -54,7 +54,7 @@ export function LandingPage() {
       <section className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-            MVP-Kern
+            Trainingskern
           </p>
           <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
             Kein Habit Tracker. Ein Trainingssystem für Verhalten.

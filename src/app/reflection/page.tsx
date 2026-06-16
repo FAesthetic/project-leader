@@ -1,4 +1,5 @@
 import { journalPrompts, quickLogs } from "@/data/mvp-mock";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,7 +30,7 @@ export default function ReflectionPage() {
             </div>
             <p className="text-sm leading-6 text-muted-foreground">
               Gute Reflexion trennt, was sichtbar passiert ist, von dem, was
-              darunterliegen könnte. Genau dadurch wird der nächste Führungsimpuls sauberer.
+              darunterliegen könnte. Genau dadurch wird der nächste Führungszug klarer.
             </p>
           </CardContent>
         </Card>
@@ -42,12 +43,12 @@ export default function ReflectionPage() {
             {journalPrompts.systemic.map((prompt) => (
               <label key={prompt} className="space-y-2">
                 <span className="text-sm font-medium">{prompt}</span>
-                <Textarea placeholder="Notiz im Mock" />
+                <Textarea placeholder="Kurze Notiz" />
               </label>
             ))}
             <div className="md:col-span-2">
-              <Button type="button" disabled>
-                Speichern im Mock nicht aktiv
+              <Button asChild>
+                <Link href="/journal">Ins Journal übernehmen</Link>
               </Button>
             </div>
           </CardContent>

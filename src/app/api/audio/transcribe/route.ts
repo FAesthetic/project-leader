@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          "Es ist kein OpenAI API Key hinterlegt. Setze ihn in Profil/Einstellungen oder serverseitig als OPENAI_API_KEY.",
+          "Es ist kein OpenAI API-Key hinterlegt. Speichere deinen Key in Einstellungen > API-Key oder nutze die Notiz ohne KI-Auswertung.",
       },
       { status: 503 }
     );

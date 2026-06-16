@@ -1,11 +1,9 @@
 import {
-  BookOpen,
   ClipboardCheck,
-  Compass,
-  LayoutDashboard,
+  Home,
   MessageSquarePlus,
   NotebookPen,
-  Settings,
+  UsersRound,
 } from "lucide-react";
 
 import type { AppNavigationItem } from "@/types/navigation";
@@ -13,64 +11,52 @@ import type { AppNavigationItem } from "@/types/navigation";
 export const appNavigation: AppNavigationItem[] = [
   {
     title: "Heute",
-    description: "Fokus, Training und offene Impulse",
+    description: "Fokus, Logs und Zusagen",
     href: "/dashboard",
     activePaths: ["/dashboard", "/morning"],
     state: "available",
-    icon: LayoutDashboard,
+    icon: Home,
   },
   {
     title: "Training",
-    description: "Plan, Übungen und Fortschritt",
+    description: "Plan, Werkzeuge, Fortschritt",
     href: "/training",
-    activePaths: ["/training", "/progress", "/planner"],
+    activePaths: ["/training", "/progress", "/planner", "/models"],
     state: "available",
     icon: ClipboardCheck,
   },
   {
+    title: "Log",
+    description: "Situation schnell festhalten",
+    href: "/quick-log",
+    activePaths: ["/quick-log"],
+    state: "available",
+    icon: MessageSquarePlus,
+  },
+  {
     title: "Journal",
-    description: "Situationen und Reflexionen",
+    description: "Abendreflexion und Muster",
     href: "/journal",
-    activePaths: ["/journal", "/quick-log", "/reflection"],
+    activePaths: ["/journal", "/reflection"],
     state: "available",
     icon: NotebookPen,
   },
   {
-    title: "Modelle",
-    description: "Werkzeuge für konkrete Situationen",
-    href: "/models",
-    activePaths: ["/models"],
+    title: "Team",
+    description: "Gespräche und Zusagen",
+    href: "/team",
+    activePaths: ["/team"],
     state: "available",
-    icon: BookOpen,
-  },
-  {
-    title: "Profil",
-    description: "Startprofil, Ziele und Rahmen",
-    href: "/settings",
-    activePaths: ["/settings", "/onboarding"],
-    state: "available",
-    icon: Settings,
+    icon: UsersRound,
   },
 ];
 
 export const quickActionNavigation: AppNavigationItem = {
-  title: "Quick Log",
+  title: "Log",
   description: "Situation festhalten",
   href: "/quick-log",
   state: "available",
   icon: MessageSquarePlus,
 };
 
-export const mobileNavigation = [
-  appNavigation[0],
-  appNavigation[1],
-  appNavigation[2],
-  appNavigation[3],
-  {
-    title: "Profil",
-    description: "Startprofil und Einstellungen",
-    href: "/settings",
-    state: "available",
-    icon: Compass,
-  },
-] satisfies AppNavigationItem[];
+export const mobileNavigation = appNavigation;
