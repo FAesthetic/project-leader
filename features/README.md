@@ -1,112 +1,182 @@
-# Feature Specifications
+# Feature Specs – Project Leadership
 
-Dieser Ordner enthält detaillierte Feature Specs vom Requirements Engineer.
+Dieses Verzeichnis enthält Feature-Spezifikationen für Project Leadership.
 
-## Naming Convention
-`PROJ-X-feature-name.md`
+Jedes größere Feature bekommt eine eigene Datei.
 
-Beispiele:
-- `PROJ-1-user-authentication.md`
-- `PROJ-2-kanban-board.md`
-- `PROJ-3-file-attachments.md`
+Beispiel:
 
-## Was gehört in eine Feature Spec?
-
-### 1. User Stories
-Beschreibe, was der User tun möchte:
-```markdown
-Als [User-Typ] möchte ich [Aktion] um [Ziel zu erreichen]
+```txt
+features/PROJ-2-onboarding.md
 ```
 
-### 2. Acceptance Criteria
-Konkrete, testbare Kriterien:
-```markdown
-- [ ] User kann Email + Passwort eingeben
-- [ ] Passwort muss mindestens 8 Zeichen lang sein
-- [ ] Nach Registration wird User automatisch eingeloggt
-```
-
-### 3. Edge Cases
-Was passiert bei unerwarteten Situationen:
-```markdown
-- Was passiert bei doppelter Email?
-- Was passiert bei Netzwerkfehler?
-- Was passiert bei gleichzeitigen Edits?
-```
-
-### 4. Tech Design (vom Solution Architect)
-```markdown
-## Database Schema
-CREATE TABLE tasks (...);
-
-## Component Architecture
-ProjectDashboard
-├── ProjectList
-│   └── ProjectCard
-```
-
-### 5. QA Test Results (vom QA Engineer)
-Am Ende des Feature-Dokuments fügt QA die Test-Ergebnisse hinzu:
-```markdown
 ---
 
-## QA Test Results
+## Feature-Datei Vorlage
 
-**Tested:** 2026-01-12
-**App URL:** http://localhost:3000
+Neue Feature-Dateien sollen diese Struktur nutzen:
 
-### Acceptance Criteria Status
-- [x] AC-1: User kann Email + Passwort eingeben
-- [x] AC-2: Passwort mindestens 8 Zeichen
-- [ ] ❌ BUG: Doppelte Email wird nicht abgelehnt
+```md
+# PROJ-X – Feature Name
 
-### Bugs Found
-**BUG-1: Doppelte Email-Registrierung**
-- **Severity:** High
-- **Steps to Reproduce:** 1. Register with email, 2. Try again with same email
-- **Expected:** Error message
-- **Actual:** Silent failure
+## Status
+
+Backlog / Ready / In Progress / Review / Done / Blocked
+
+## Priorität
+
+P0 / P1 / P2 / P3
+
+## Ziel
+
+Kurze Beschreibung, welches Problem dieses Feature löst.
+
+## Nutzerwert
+
+Warum ist dieses Feature für den Nutzer wichtig?
+
+## User Stories
+
+- Als Nutzer möchte ich ..., damit ...
+- Als Nutzer möchte ich ..., damit ...
+
+## Scope
+
+Was gehört zu diesem Feature?
+
+- Punkt 1
+- Punkt 2
+- Punkt 3
+
+## Out of Scope
+
+Was gehört bewusst nicht dazu?
+
+- Punkt 1
+- Punkt 2
+
+## UX-Verhalten
+
+Wie soll sich das Feature anfühlen und verhalten?
+
+## Screens / Bereiche
+
+Welche UI-Bereiche sind betroffen?
+
+- Dashboard
+- Onboarding
+- Journal
+- etc.
+
+## Datenmodell
+
+Welche Daten werden gebraucht?
+
+Beispiel:
+
+- user_id
+- date
+- title
+- status
+
+## Validierung
+
+Welche Eingaben müssen validiert werden?
+
+## Akzeptanzkriterien
+
+- [ ] Kriterium 1
+- [ ] Kriterium 2
+- [ ] Kriterium 3
+
+## Edge Cases
+
+- Was passiert bei leerem Zustand?
+- Was passiert bei Fehlern?
+- Was passiert auf Mobile?
+- Was passiert ohne API Key?
+- Was passiert ohne Supabase?
+
+## Technische Notizen
+
+- Komponenten
+- Hooks
+- API Routes
+- Supabase-Tabellen
+- AI-Funktionen
+
+## QA-Checklist
+
+- [ ] Desktop geprüft
+- [ ] Mobile geprüft
+- [ ] Ladezustände geprüft
+- [ ] Fehlerzustände geprüft
+- [ ] Leerer Zustand geprüft
+- [ ] TypeScript geprüft
+- [ ] Lint geprüft
+- [ ] Build geprüft
+
+## Implementierungsnotizen
+
+Was wurde gebaut?
+
+## Offene Punkte
+
+Was fehlt noch?
+
+## Änderungsverlauf
+
+- Datum – Änderung
 ```
 
-### 6. Deployment Status (vom DevOps Engineer)
-```markdown
 ---
 
-## Deployment
+## Arbeitsregel
 
-**Status:** ✅ Deployed
-**Deployed:** 2026-01-13
-**Production URL:** https://your-app.vercel.app
-**Git Tag:** v1.0.0-PROJ-1
+Vor dem Bauen:
+
+1. `AGENTS.md` lesen
+2. `docs/PRD.md` lesen
+3. `features/INDEX.md` lesen
+4. passende Feature-Spec lesen oder erstellen
+
+Nach dem Bauen:
+
+1. Feature-Datei aktualisieren
+2. `features/INDEX.md` aktualisieren
+3. README aktualisieren, falls Setup oder Commands betroffen sind
+
+---
+
+## Feature-ID-Regeln
+
+Feature IDs sind fortlaufend:
+
+- PROJ-0
+- PROJ-1
+- PROJ-2
+- PROJ-3
+
+Commit-Konvention, falls Git genutzt wird:
+
+```txt
+feat(PROJ-X): kurze beschreibung
+fix(PROJ-X): kurze beschreibung
+docs(PROJ-X): kurze beschreibung
+refactor(PROJ-X): kurze beschreibung
 ```
 
-## Workflow
+---
 
-1. **Requirements Engineer** erstellt Feature Spec
-2. **User** reviewed Spec und gibt Feedback
-3. **Solution Architect** fügt Tech-Design hinzu
-4. **User** approved finales Design
-5. **Frontend/Backend Devs** implementieren (dokumentiert via Git Commits)
-6. **QA Engineer** testet und fügt Test-Ergebnisse zum Feature-Dokument hinzu
-7. **DevOps** deployed und fügt Deployment-Status zum Feature-Dokument hinzu
+## MVP-Regel
 
-## Status-Tracking
+Keine P2- oder P3-Features bauen, solange P0/P1 nicht stabil sind.
 
-Feature-Status wird direkt im Feature-Dokument getrackt:
-```markdown
-# PROJ-1: Feature Name
+Insbesondere nicht früh bauen:
 
-**Status:** 🔵 Planned | 🟡 In Progress | ✅ Deployed
-**Created:** 2026-01-12
-**Last Updated:** 2026-01-12
-```
-
-**Status-Bedeutung:**
-- 🔵 Planned – Requirements sind geschrieben, ready for development
-- 🟡 In Progress – Wird gerade gebaut
-- ✅ Deployed – Live in Production
-
-**Git als Single Source of Truth:**
-- Alle Implementierungs-Details sind in Git Commits
-- `git log --grep="PROJ-1"` zeigt alle Änderungen für dieses Feature
-- Keine separate FEATURE_CHANGELOG.md nötig!
+- Kalenderintegration
+- Push Notifications
+- Mentor-Matching
+- iOS-App
+- Zahlungsmodell
+- Team-Version

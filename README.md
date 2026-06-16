@@ -1,330 +1,495 @@
-# AI Coding Starter Kit
+# Project Leadership
 
-> Build production-ready web apps faster with AI-powered Skills handling Requirements, Architecture, Development, QA, and Deployment.
+Project Leadership ist eine KI-gestützte Trainings-App für Leadership, Self Development und Resilienz.
 
-This template uses [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with modern Skills, Rules, and Sub-Agents to provide a complete AI-powered development workflow.
+Die App hilft Nutzern, Führung wie Fitness zu trainieren:
 
-## Quick Start
+- Onboarding
+- KI-Entwicklungsprofil
+- dynamischer Trainingsplan
+- Tagesfokus
+- Startprofil und Zielanpassung
+- Quick Logs
+- Audioeingabe für Quick Log und Journal
+- Abendjournal
+- systemische Reflexion
+- KI-Feedback
+- Modellbibliothek
+- Fortschrittsübersicht
+- Wochenplaner für Führungssituationen
 
-### 1. Clone & Install
+Leitsatz:
 
-```bash
-git clone https://github.com/YOUR_USERNAME/ai-coding-starter-kit.git my-project
-cd my-project
-npm install
-npx playwright install chromium   # one-time: installs browser for E2E tests (~300MB)
-```
-
-### 2. (Optional) Supabase Setup
-
-If you need a backend:
-
-1. Create Supabase Project: [supabase.com](https://supabase.com)
-2. Copy `.env.local.example` to `.env.local`
-3. Add your Supabase credentials
-4. Uncomment the Supabase client in `src/lib/supabase.ts`
-
-Skip this step if you're building frontend-only (landing pages, portfolios, etc.)
-
-### 3. Start Development
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### 4. Initialize Your Project
-
-Open Claude Code and run `/init` with a brief description of your idea:
-
-```
-/init I want to build a project management tool for small teams
-where users can create projects, assign tasks, and track progress.
-```
-
-The skill interviews you one question at a time (**Grill Me** principle — always with a recommended answer you just confirm or correct) until there's a shared understanding. It then:
-1. Creates your **Product Requirements Document** (`docs/PRD.md`)
-2. Breaks the project into a prioritized feature map (P0/P1/P2)
-3. Updates **feature tracking** (`features/INDEX.md`)
-4. Recommends which feature to build first
-
-### 5. Spec Your First Feature
-
-After initialization, create a detailed spec for the first feature:
-
-```
-/write-spec PROJ-1
-```
-
-The skill interviews you about this single feature in depth — user stories, edge cases, acceptance criteria. Use `/refine PROJ-X` at any point to revisit and improve an existing spec.
-
-### 6. Build Features
-
-```
-/architecture    Design the tech approach for features/PROJ-1-user-auth.md
-/frontend        Build the UI for features/PROJ-1-user-auth.md
-/backend         Build the API for features/PROJ-1-user-auth.md
-/qa              Test features/PROJ-1-user-auth.md
-/deploy          Deploy to Vercel
-```
-
-Each skill suggests the next step when it finishes. Handoffs are always user-initiated.
+> Jeden Tag 1 % besser führen.
 
 ---
 
-## Available Skills
+## Produktidee
 
-| Skill | Command | What It Does |
-|-------|---------|-------------|
-| Project Initializer | `/init` | One-time setup: creates PRD + feature map via Grill Me interview |
-| Feature Spec Writer | `/write-spec` | Creates a full spec for one feature (user stories, AC, edge cases) |
-| Spec Refiner | `/refine PROJ-X` | Reopens an existing spec to improve, extend, or challenge it |
-| Solution Architect | `/architecture` | Designs PM-friendly tech architecture (no code, only high-level design) |
-| Frontend Developer | `/frontend` | Builds UI with React, Tailwind CSS, and shadcn/ui |
-| Backend Developer | `/backend` | Builds APIs, database schemas, RLS policies with Supabase |
-| QA Engineer | `/qa` | Tests features against acceptance criteria + security audit |
-| DevOps | `/deploy` | Deploys to Vercel with production-ready checks |
-| Help | `/help` | Context-aware guide: shows where you are and what to do next |
+In der modernen Führungswelt hat sich viel verändert. Project Leadership hilft, diesen Wandel mitzugestalten, indem wir bei uns selbst anfangen.
 
-### How Skills Work
+Führung muss trainiert werden.
 
-- **Skills** are defined in `.claude/skills/` and auto-discovered by Claude Code
-- **Rules** in `.claude/rules/` are auto-applied based on file context (no manual loading)
-- **Sub-Agents** run heavy tasks (frontend, backend, QA) in isolated contexts for cost efficiency
-- **CLAUDE.md** provides project context automatically at every session start
+Die App ist kein Therapeut und kein klassischer Habit Tracker. Sie ist ein klarer Sparringspartner für Menschen mit Führungsverantwortung oder Führungsambition.
 
 ---
 
-## Development Workflow
+## Zielgruppe
 
-```
-0. Setup     /init          -->  PRD + feature map (once per project)
-1. Spec      /write-spec      -->  Feature spec in features/PROJ-X.md
-             /refine PROJ-X -->  Revisit and improve an existing spec
-2. Design    /architecture  -->  Tech design added to feature spec
-3. Build     /frontend      -->  UI components implemented
-             /backend       -->  APIs + database (if needed)
-4. Test      /qa            -->  Test results added to feature spec
-5. Ship      /deploy        -->  Deployed to Vercel
-```
+Project Leadership ist rollen- und branchenneutral.
 
-### Feature Tracking
+Die App richtet sich an:
 
-Features are tracked in `features/INDEX.md`:
-
-| ID | Feature | Status | Spec |
-|----|---------|--------|------|
-| PROJ-1 | User Login | Deployed | [Spec](features/PROJ-1-user-login.md) |
-| PROJ-2 | Dashboard | In Progress | [Spec](features/PROJ-2-dashboard.md) |
-
-Every skill reads this file at start and updates it when done, preventing duplicate work.
+- angehende Führungskräfte
+- neue Führungskräfte
+- erfahrene Führungskräfte
+- Teamleads
+- Manager
+- Projektverantwortliche
+- Menschen in fachlicher, lateraler oder disziplinarischer Führung
+- Menschen, die Leadership, Selbstführung und Wirkung bewusst entwickeln wollen
 
 ---
 
 ## Tech Stack
 
-| Category | Tool | Why? |
-|----------|------|------|
-| **Framework** | Next.js 16 | React + Server Components + App Router |
-| **Language** | TypeScript | Type safety |
-| **Styling** | Tailwind CSS | Utility-first CSS |
-| **UI Library** | shadcn/ui | Copy-paste, customizable components |
-| **Backend** | Supabase (optional) | PostgreSQL + Auth + Storage + Realtime |
-| **Deployment** | Vercel | Zero-config Next.js hosting |
-| **Validation** | Zod | Runtime type validation |
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- optional shadcn/ui
+- Zod
+- react-hook-form
+- Supabase für Auth und Datenbank
+- AI-Service-Schicht für OpenAI, Anthropic Claude oder Google Gemini
+- Vercel Deployment
 
 ---
 
-## Project Structure
-
-```
-ai-coding-starter-kit/
-+-- CLAUDE.md                        <-- Auto-loaded project context
-+-- .claude/
-|   +-- settings.json                <-- Team permissions (committed)
-|   +-- settings.local.json          <-- Personal overrides (gitignored)
-|   +-- rules/                       <-- Auto-applied coding rules
-|   |   +-- general.md                   Git workflow, feature tracking
-|   |   +-- frontend.md                  shadcn/ui, component standards
-|   |   +-- backend.md                   RLS, validation, queries
-|   |   +-- security.md                  Secrets, headers, auth
-|   +-- skills/                      <-- Invocable workflows (/command)
-|   |   +-- init/SKILL.md                /init
-|   |   +-- write-spec/SKILL.md           /write-spec
-|   |   +-- refine/SKILL.md              /refine
-|   |   +-- architecture/SKILL.md        /architecture
-|   |   +-- frontend/SKILL.md            /frontend (runs as sub-agent)
-|   |   +-- backend/SKILL.md             /backend (runs as sub-agent)
-|   |   +-- qa/SKILL.md                  /qa (runs as sub-agent)
-|   |   +-- deploy/SKILL.md              /deploy
-|   |   +-- help/SKILL.md                /help
-|   +-- agents/                      <-- Sub-agent configs
-|       +-- frontend-dev.md              Model, tools, limits
-|       +-- backend-dev.md
-|       +-- qa-engineer.md
-+-- features/                        <-- Feature specifications
-|   +-- INDEX.md                         Status tracking
-|   +-- README.md                        Spec format documentation
-+-- docs/
-|   +-- PRD.md                       <-- Product Requirements Document
-|   +-- production/                  <-- Production setup guides
-|       +-- error-tracking.md            Sentry setup (5 min)
-|       +-- security-headers.md          XSS/Clickjacking protection
-|       +-- performance.md               Lighthouse, optimization
-|       +-- database-optimization.md     Indexing, N+1, caching
-|       +-- rate-limiting.md             Upstash Redis
-+-- src/
-|   +-- app/                         <-- Pages (Next.js App Router)
-|   +-- components/
-|   |   +-- ui/                      <-- shadcn/ui components (35+ installed)
-|   +-- hooks/                       <-- Custom React hooks
-|   +-- lib/                         <-- Utilities
-+-- public/                          <-- Static files
-```
-
----
-
-## Getting Started
-
-### 1. Initialize the Project
-
-Run `/init` with a brief description of your idea. The skill interviews you one question at a time and fills out `docs/PRD.md` with your vision, target users, and a prioritized feature map.
-
-### 2. Spec Your First Feature
-
-Run `/write-spec PROJ-1`. The skill interviews you in depth about this single feature and creates a complete spec in `features/PROJ-1-name.md` — user stories, acceptance criteria, edge cases. Then suggest running `/architecture` as the next step.
-
-### 3. Add shadcn/ui Components (as needed)
-
-35+ components are pre-installed. Add more as needed:
-```bash
-npx shadcn@latest add [component-name]
-```
-
-### 4. Production Setup (first deployment)
-
-When you're ready to deploy, the `/deploy` skill guides you through:
-- Vercel setup and deployment
-- Error tracking with Sentry
-- Security headers configuration
-- Performance monitoring with Lighthouse
-
-See `docs/production/` for detailed setup guides.
-
----
-
-## How It Works Under the Hood
-
-### Skills (`.claude/skills/`)
-Each skill is a structured workflow that Claude Code discovers automatically. Skills can run inline (in the main conversation) or as forked sub-agents (isolated context window).
-
-| Skill | Execution | Why? |
-|-------|-----------|------|
-| `/init` | Inline | Needs live interview with user |
-| `/write-spec` | Inline | Needs live interview with user |
-| `/refine` | Inline | Needs live interview with user |
-| `/architecture` | Inline | Short output, user reviews in real-time |
-| `/frontend` | Sub-agent (forked) | Heavy file editing, lots of output |
-| `/backend` | Sub-agent (forked) | Heavy file editing, SQL, API code |
-| `/qa` | Sub-agent (forked) | Systematic testing, lots of output |
-| `/deploy` | Inline | Deployment needs user oversight |
-| `/help` | Inline | Quick status check and guidance |
-
-### Rules (`.claude/rules/`)
-Coding standards that are auto-applied based on which files Claude is working with. No manual loading needed.
-
-### Sub-Agent Configs (`.claude/agents/`)
-Lightweight configurations that define model, tool access, and turn limits for forked skills.
-
-### CLAUDE.md
-Auto-loaded at every session start. Contains tech stack, conventions, and references to PRD and feature index.
-
----
-
-## Context Engineering
-
-AI agents work best with clean, structured context - not longer prompts. This template is designed around these principles:
-
-### State lives in files, not in memory
-
-Every skill reads `features/INDEX.md` and the relevant feature spec at start. After context compaction or a new session, nothing is lost - the agent simply re-reads the files. Progress tracking, acceptance criteria, and tech designs all live in markdown files, not in the conversation.
-
-### Context is layered
-
-Not everything is loaded at once. Information is layered by relevance:
-
-| Layer | What | When loaded |
-|-------|------|-------------|
-| `CLAUDE.md` | Tech stack, conventions, commands | Every session (auto) |
-| `.claude/rules/` | Coding standards | When editing matching files (auto) |
-| Skill `SKILL.md` | Workflow instructions | When skill is invoked |
-| Feature spec | Requirements, AC, tech design | On demand (skill reads it) |
-| `docs/production/` | Deployment guides | Only when referenced |
-
-### Context is isolated
-
-Heavy implementation skills (`/frontend`, `/backend`, `/qa`) run as **forked sub-agents** with their own context window. Research noise from one skill doesn't pollute another. Each fork starts clean and loads only what it needs.
-
-### Context recovery is built in
-
-All forked skills include a **Context Recovery** section: if the context is compacted mid-task, the agent re-reads the feature spec, checks `git diff` for progress, and continues without restarting or duplicating work.
-
-### Always read, never guess
-
-A global rule (`rules/general.md`) enforces: always read a file before modifying it, never assume contents from memory, verify import paths and API routes by reading. This prevents hallucinated code references - the most common source of AI coding errors.
-
----
-
-## Customization for Your Team
-
-This template is designed as a starting point. Customize it for your team:
-
-1. **Edit CLAUDE.md** - Add your project-specific conventions and build commands
-2. **Edit docs/PRD.md** - Define your product vision and roadmap
-3. **Edit .claude/rules/** - Adjust coding standards for your team
-4. **Edit .claude/skills/** - Modify workflows to match your process
-5. **Edit .claude/settings.json** - Configure team permissions
-
----
-
-## Production Guides
-
-Standalone guides in `docs/production/`:
-
-| Guide | Setup Time | What It Does |
-|-------|-----------|-------------|
-| [Error Tracking](docs/production/error-tracking.md) | 5 min | Sentry integration for automatic error capture |
-| [Security Headers](docs/production/security-headers.md) | 2 min | XSS, Clickjacking, MIME sniffing protection |
-| [Performance](docs/production/performance.md) | 10 min | Lighthouse checks, image optimization, caching |
-| [Database Optimization](docs/production/database-optimization.md) | 15 min | Indexing, N+1 prevention, query optimization |
-| [Rate Limiting](docs/production/rate-limiting.md) | 10 min | Upstash Redis for API abuse prevention |
-
----
-
-## Scripts
+## Lokaler Start
 
 ```bash
-npm run dev          # Development server (localhost:3000)
-npm run build        # Production build
-npm run start        # Production server
-npm run lint         # ESLint
-npm test             # Vitest: integration tests for API routes
-npm run test:e2e     # Playwright: E2E tests for user flows
-npm run test:all     # Run both test suites
+npm install
+npm run dev
+```
+
+Die App läuft standardmäßig unter:
+
+```txt
+http://localhost:3000
+```
+
+Aktuelle Mock-Routen:
+
+```txt
+/
+/onboarding
+/dashboard
+/training
+/morning
+/quick-log
+/journal
+/reflection
+/models
+/progress
+/planner
+/settings
+/login
+/demo/start
+```
+
+Die sichtbare App-Navigation ist bewusst auf fünf Hauptbereiche reduziert:
+
+```txt
+Heute
+Training
+Journal
+Modelle
+Profil
+```
+
+Quick Log ist eine globale Schnellaktion. Fortschritt und Planer liegen als
+Unterbereiche im Training. Startprofil und spätere Zielanpassungen liegen im
+Profil.
+
+Für eine lokale Produktdemo ohne Google- oder E-Mail-Login kann die Demo über
+die Landingpage oder direkt hier gestartet werden:
+
+```txt
+http://localhost:3000/demo/start?next=/dashboard
+```
+
+Der Demo-Modus nutzt ausschließlich Mock-Daten und setzt lokal einen temporären
+Cookie. In `npm run dev` ist er automatisch aktiv. Für `npm run start` oder
+Test-Deploys muss er bewusst per Env aktiviert werden:
+
+```bash
+DEMO_MODE_ENABLED=true
+```
+
+Für die öffentliche Domain ist vorgesehen:
+
+```txt
+https://leaderjournal.de
+```
+
+Auf Production sollte der Demo-Modus nur bewusst aktiviert werden. Ohne Demo
+liegen die App-Bereiche hinter Login/Auth.
+
+---
+
+## Wichtige Scripts
+
+Je nach Projektsetup können folgende Scripts verfügbar sein:
+
+```bash
+npm run dev
+npm run build
+npm run lint
+npm run start
+npm test
+npm run test:e2e
+```
+
+Wenn ein Script fehlt, bitte `package.json` prüfen.
+
+---
+
+## ENV-Variablen
+
+Lege eine `.env.local` an.
+
+Nutze `.env.example` als Vorlage.
+
+Wichtige Variablen:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+NEXT_PUBLIC_AUTH_GOOGLE_ENABLED=
+NEXT_PUBLIC_AUTH_APPLE_ENABLED=
+
+AI_PROVIDER=
+OPENAI_API_KEY=
+OPENAI_TRANSCRIBE_MODEL=
+OPENAI_SUMMARY_MODEL=
+ANTHROPIC_API_KEY=
+GEMINI_API_KEY=
+
+NEXT_PUBLIC_APP_URL=
+DEMO_MODE_ENABLED=
+```
+
+Hinweis:
+
+- Keine API Keys hardcoden.
+- `SUPABASE_SERVICE_ROLE_KEY` niemals im Client verwenden.
+- Für den MVP darf ein Mock-AI-Provider genutzt werden.
+- Audio-Transkription läuft serverseitig über `/api/audio/transcribe`.
+- Ohne `OPENAI_API_KEY` zeigt die App einen klaren Fehlerzustand statt Audio heimlich zu senden.
+
+---
+
+## Auth und Supabase
+
+Umgesetzt ist eine erste Supabase-Auth-Schicht:
+
+- E-Mail/Passwort Login unter `/login`
+- Account-Erstellung unter `/login`
+- Google OAuth Button
+- Apple OAuth Button
+- OAuth Callback unter `/auth/callback`
+- Logout unter `/auth/sign-out`
+- Accountstatus in Profil/Einstellungen
+
+Google und Apple funktionieren, sobald die Provider im Supabase-Dashboard aktiviert sind und diese Redirect URL erlaubt ist:
+
+```txt
+https://jcstuatpcudqrbkrexer.supabase.co/auth/v1/callback
+```
+
+Bei Google gehört `http://localhost:3000` zusätzlich in die Authorized JavaScript origins.
+
+Die lokale App-Callback-URL gehört in Supabase unter `Authentication` -> `URL Configuration`, nicht in Google:
+
+```txt
+http://localhost:3000/auth/callback
+http://localhost:3000/**
+```
+
+Für `leaderjournal.de` zusätzlich in Supabase erlauben:
+
+```txt
+https://leaderjournal.de/auth/callback
+https://leaderjournal.de/**
+```
+
+Und in Google unter Authorized JavaScript origins ergänzen:
+
+```txt
+https://leaderjournal.de
+```
+
+Setze die Provider-Flags erst danach auf `true`:
+
+```bash
+NEXT_PUBLIC_AUTH_GOOGLE_ENABLED=true
+NEXT_PUBLIC_AUTH_APPLE_ENABLED=true
+```
+
+Solange die Flags `false` sind, zeigt die Login-Seite keine klickbaren Google-/Apple-Buttons. Dadurch laufen Nutzer nicht in den Supabase-Fehler `Unsupported provider: provider is not enabled`.
+
+Das vorbereitete Datenmodell mit RLS liegt in:
+
+```txt
+docs/production/supabase-schema.sql
+```
+
+Dieses SQL muss im Supabase SQL Editor geprüft und ausgeführt werden, bevor echte Persistenz für Profile, Quick Logs, Journal und Training gebaut wird.
+
+---
+
+## Production Deployment
+
+Die App ist als Next.js Node-App vorbereitet. Für Hostinger darf das Deployment-
+Archiv keine Build-Artefakte und keine lokalen Secrets enthalten.
+
+Nicht ins Deployment-Archiv:
+
+```txt
+node_modules/
+.next/
+.git/
+.env.local
+*.zip
+```
+
+Wichtige Production-ENV:
+
+```bash
+NEXT_PUBLIC_APP_URL=https://leaderjournal.de
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+NEXT_PUBLIC_AUTH_GOOGLE_ENABLED=true
+NEXT_PUBLIC_AUTH_APPLE_ENABLED=false
+AI_PROVIDER=mock
+OPENAI_API_KEY=
+OPENAI_TRANSCRIBE_MODEL=gpt-4o-mini-transcribe
+OPENAI_SUMMARY_MODEL=gpt-5.5
+DEMO_MODE_ENABLED=false
+```
+
+Security-Header werden in `next.config.ts` gesetzt.
+
+### Hostinger VPS
+
+Da `leaderjournal.de` im verbundenen Hostinger-Account nicht als Shared-Hosting-
+Website sichtbar ist, liegt zusätzlich ein VPS-Compose-Setup unter:
+
+```txt
+deploy/hostinger/docker-compose.yml
+```
+
+Dieses Setup startet die Next.js-App als Node-Service und nutzt Caddy als
+Reverse Proxy für:
+
+```txt
+leaderjournal.de
+www.leaderjournal.de
 ```
 
 ---
 
-## Author
+## Projektstruktur
 
-Created by **Alex Sprogis** – AI Product Engineer & Content Creator.
-
-- [YouTube](https://www.youtube.com/@alex.sprogis)
-- [Website](https://alexsprogis.de)
+```txt
+src/
+  app/
+  components/
+    ui/
+    layout/
+    dashboard/
+    onboarding/
+    training/
+    journal/
+    models/
+    progress/
+    planner/
+  hooks/
+  lib/
+    ai/
+    supabase/
+    utils/
+  data/
+  types/
+docs/
+  PRD.md
+  production/
+features/
+  INDEX.md
+  README.md
+```
 
 ---
 
-## License
+## Design-System
 
-MIT License - feel free to use for your projects!
+Die App nutzt ein mattes, ruhiges Premium-Design auf Basis von Tailwind CSS und shadcn/ui.
+
+Umgesetzt sind:
+
+- Light Mode, Dark Mode und System Theme über `next-themes`
+- lokale Akzentfarbe über `localStorage`
+- Akzentfarben: Emerald, Blue, Violet, Amber, Rose, Slate
+- zentrale CSS Tokens in `src/app/globals.css`
+- Theme-Provider in `src/components/theme/theme-provider.tsx`
+- Theme Toggle und Accent Color Picker in `src/components/theme/`
+- reduzierte Sidebar und Mobile Bottom Navigation
+- gemeinsame UI-Helfer wie `SectionHeader` und `EmptyState`
+
+Die Einstellungen sind im Mock unter `/settings` sichtbar. Die Auswahl beeinflusst das UI sofort, wird aber noch nicht in einer Datenbank gespeichert.
+
+Darstellung und Akzentfarbe werden ausschließlich in Profil/Einstellungen gesteuert, nicht in der Hauptnavigation.
+
+---
+
+## Audioeingabe
+
+Quick Log und Journal unterstützen eine erste Audioeingabe:
+
+- Aufnahme im Browser über Mikrofonberechtigung
+- Upload an die serverseitige Route `src/app/api/audio/transcribe/route.ts`
+- Transkription über OpenAI Speech-to-Text
+- kurze Leadership-Zusammenfassung über OpenAI Responses API
+- keine Speicherung der Audiodatei im MVP
+- Ausgabe von Rohtranskript, bereinigter Notiz und nächstem Führungsimpuls
+
+Konfiguration:
+
+```bash
+OPENAI_API_KEY=
+OPENAI_TRANSCRIBE_MODEL=gpt-4o-mini-transcribe
+OPENAI_SUMMARY_MODEL=gpt-5.5
+```
+
+---
+
+## MVP-Umfang
+
+Der Mock-MVP umfasst aktuell:
+
+1. Landingpage
+2. Startprofil / Onboarding-Mock
+3. Heute-Ansicht
+4. Training mit Wochenplan
+5. Tagesfokus
+6. Quick Log als Schnellaktion
+7. Abendjournal
+8. systemische Reflexion
+9. statisches Mock-Feedback
+10. Modellbibliothek
+11. Fortschrittsseite
+12. Wochenplaner für Führungssituationen
+13. Profil/Einstellungen mit Startprofil, Theme und Akzentfarbe
+14. responsive Webapp
+
+Noch nicht echt angebunden:
+
+- Auth-Struktur
+- Supabase-Datenmodell
+- KI-Entwicklungsprofil
+- dynamischer Trainingsplan
+- KI-Feedback
+
+---
+
+## Bewusst nicht im MVP
+
+Nicht direkt bauen:
+
+- native iOS-App
+- Push Notifications
+- echte Kalenderintegration
+- Mentor-/Mentee-Matching
+- Team-Version
+- Enterprise-Version
+- Zahlungsmodell
+- Werbung
+- Apple Health
+- komplexe Social Features
+
+Diese Features dürfen vorbereitet, aber nicht umgesetzt werden, solange der MVP-Kern nicht stabil ist.
+
+---
+
+## Arbeitsweise
+
+Das Projekt nutzt Feature-Dateien.
+
+Alle Features werden in `features/INDEX.md` getrackt.
+
+Für größere Features wird eine eigene Datei angelegt:
+
+```txt
+features/PROJ-X-feature-name.md
+```
+
+Jede Feature-Datei enthält:
+
+- Ziel
+- User Stories
+- Scope
+- Out of Scope
+- UX-Verhalten
+- Datenmodell
+- Akzeptanzkriterien
+- Edge Cases
+- QA-Checklist
+- Implementierungsnotizen
+
+---
+
+## Datenschutz
+
+Project Leadership verarbeitet sensible Reflexionsdaten.
+
+Siehe:
+
+```txt
+docs/production/privacy-security.md
+```
+
+Grundsätze:
+
+- Datenminimierung
+- Row Level Security
+- keine Secrets im Frontend
+- keine vertraulichen Daten in Logs
+- keine unnötigen Analytics
+- KI-Anfragen sparsam und bewusst gestalten
+
+---
+
+## Codex-Hinweis
+
+Für Codex ist `AGENTS.md` die wichtigste Arbeitsanweisung.
+
+Vor größeren Änderungen immer lesen:
+
+1. `AGENTS.md`
+2. `docs/PRD.md`
+3. `features/INDEX.md`
+4. passende Feature-Datei
+
+---
+
+## Nächste sinnvolle Schritte
+
+1. Projektbasis prüfen
+2. UI-Mock bauen
+3. Feature-Dateien für MVP anlegen
+4. Supabase später anbinden
+5. AI-Service später anbinden
+6. Datenschutz und RLS sauber vorbereiten

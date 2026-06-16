@@ -1,3 +1,16 @@
+# Hinweis für dieses Projekt
+
+Für Codex ist `AGENTS.md` die verbindliche Projektanweisung.
+
+Diese `CLAUDE.md` stammt aus dem AI Coding Starter Kit und enthält hilfreiche Workflow-Konventionen. Projektvision, MVP-Scope, Rollen- und Branchenneutralität sowie konkrete Produktregeln stehen in:
+
+- `AGENTS.md`
+- `docs/PRD.md`
+- `features/INDEX.md`
+- `features/README.md`
+
+Vor größeren Änderungen immer zuerst `AGENTS.md` lesen.
+
 # AI Coding Starter Kit
 
 > A Next.js template with an AI-powered development workflow using specialized skills for Requirements, Architecture, Frontend, Backend, QA, and Deployment.
