@@ -27,10 +27,14 @@ services:
       "
     labels:
       - traefik.enable=true
-      - traefik.http.routers.leaderjournal.rule=Host(`leaderjournal.de`) || Host(`www.leaderjournal.de`)
-      - traefik.http.routers.leaderjournal.entrypoints=websecure
-      - traefik.http.routers.leaderjournal.tls.certresolver=letsencrypt
       - traefik.http.services.leaderjournal.loadbalancer.server.port=3000
+      - traefik.http.routers.leaderjournal-http.rule=Host(`leaderjournal.de`) || Host(`www.leaderjournal.de`)
+      - traefik.http.routers.leaderjournal-http.entrypoints=web
+      - traefik.http.routers.leaderjournal-http.service=leaderjournal
+      - traefik.http.routers.leaderjournal-https.rule=Host(`leaderjournal.de`) || Host(`www.leaderjournal.de`)
+      - traefik.http.routers.leaderjournal-https.entrypoints=websecure
+      - traefik.http.routers.leaderjournal-https.tls.certresolver=letsencrypt
+      - traefik.http.routers.leaderjournal-https.service=leaderjournal
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/ >/dev/null 2>&1"]
       interval: 30s
